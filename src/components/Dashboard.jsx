@@ -4,7 +4,7 @@ import { Button } from "primereact/button";
 import { Chart } from "primereact/chart";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { ProductService } from "../service/ProductService";
+import ProductService from "../service/ProductService";
 
 class Dashboard extends Component {
   state = {
@@ -17,6 +17,10 @@ class Dashboard extends Component {
     },
   };
 
+  productService = new ProductService();
+
+  weekDayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
   lastSevenDates = [...Array(7)]
     .map((_, i) => {
       const date = new Date();
@@ -25,29 +29,21 @@ class Dashboard extends Component {
     })
     .reverse();
 
-  weekDayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-  componentDidMount() {
-    this.findLastTrackedProductHistories();
-  }
-
-  findLastTrackedProductHistories() {
+  async componentDidMount() {
     const lastSevenWeekDayNames = this.lastSevenDates.map(
       (date) => this.weekDayNames[date.getDay()]
     );
-    fetch("http://localhost:3001/api/last-product/history")
-      .then((res) => res.json())
-      .then((history) => {
-        this.setState({
-          product: {
-            name: history.name,
-            history: {
-              labels: lastSevenWeekDayNames,
-              datasets: this.buildChartDataSet(history),
-            },
-          },
-        });
-      });
+    const productHistories =
+      await this.productService.findLastTrackedProductHistories();
+    this.setState({
+      product: {
+        name: productHistories.name,
+        history: {
+          labels: lastSevenWeekDayNames,
+          datasets: this.buildChartDataSet(productHistories),
+        },
+      },
+    });
   }
 
   buildChartDataSet(productHistory) {

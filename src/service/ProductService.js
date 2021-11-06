@@ -18,5 +18,13 @@ class ProductService {
         return product;
       });
   }
+
+  findLastTrackedProductHistories() {
+    return fetch("http://localhost:3001/api/last-product/history")
+      .then((res) => res.json())
+      .then((history) => {
+        return history;
+      });
+  }
 }
 export default ProductService;
