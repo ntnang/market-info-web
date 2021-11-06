@@ -1,16 +1,22 @@
-import axios from 'axios';
+class ProductService {
+  getAllProducts() {
+    return fetch("http://localhost:3001/api/products").then((res) =>
+      res.json()
+    );
+  }
 
-export class ProductService {
-
-    getProductsSmall() {
-        return axios.get('assets/demo/data/products-small.json').then(res => res.data.data);
-    }
-
-    getProducts() {
-        return axios.get('assets/demo/data/products.json').then(res => res.data.data);
-    }
-
-    getProductsWithOrdersSmall() {
-        return axios.get('assets/demo/data/products-orders-small.json').then(res => res.data.data);
-    }
+  getProductInformation(origin, productId, shopId = "") {
+    // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
+    return fetch(
+      `http://localhost:3001/api/${origin}/product/history/${productId}/${shopId}`
+    )
+      .then((res) => res.json())
+      .then((product) => {
+        if (Array.isArray(product.sellers)) {
+          product.sellers = new Map(product.sellers);
+        }
+        return product;
+      });
+  }
 }
+export default ProductService;
