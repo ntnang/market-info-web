@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Route } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 
-import { AppTopbar } from "./AppTopbar";
+import AppTopbar from "./AppTopbar";
 import { AppFooter } from "./AppFooter";
 import { AppMenu } from "./AppMenu";
 import { AppConfig } from "./AppConfig";
