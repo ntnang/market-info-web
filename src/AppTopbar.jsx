@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 import classNames from "classnames";
 import ProductInfoDialog from "./components/ProductInfoDialog";
 
@@ -50,13 +51,16 @@ class AppTopbar extends Component {
         >
           <i className="pi pi-bars" />
         </button>
-        <div className="p-fluid col-12 md:col-6">
-          <InputText
-            value={this.state.link}
-            placeholder="Paste Tiki/Shopee link here..."
-            onChange={this.onInputValueChanged}
-            onKeyDown={this.onSearchKeyDown}
-          />
+        <div id="product-link" className="p-fluid col-12 md:col-8">
+          <div className="p-inputgroup">
+            <InputText
+              value={this.state.link}
+              placeholder="Paste Tiki/Shopee link here..."
+              onChange={this.onInputValueChanged}
+              onKeyDown={this.onSearchKeyDown}
+            />
+            <Button label="Get" />
+          </div>
         </div>
 
         <button
@@ -73,31 +77,14 @@ class AppTopbar extends Component {
               this.props.mobileTopbarMenuActive,
           })}
         >
-          {/* <li>
-                          <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                              <i className="pi pi-calendar"/>
-                              <span>Events</span>
-                          </button>
-                      </li>
-                      <li>
-                          <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                              <i className="pi pi-cog"/>
-                              <span>Settings</span>
-                          </button>
-                      </li>
-                      <li>
-                          <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                              <i className="pi pi-user"/>
-                              <span>Profile</span>
-                          </button>
-                      </li> */}
           <li>
             <button
+              id="product-link-button"
               className="p-link layout-topbar-button"
               onClick={this.props.onMobileSubTopbarMenuClick}
             >
-              <i className="pi pi-search" />
-              <span>Search</span>
+              <i className="pi pi-link" />
+              <span>Product link</span>
             </button>
           </li>
         </ul>

@@ -33,7 +33,6 @@ class ProductInfoDialog extends Component {
           icon="pi pi-check"
           className="btn-primary"
           onClick={this.trackProductInformation}
-          autoFocus
         />
       </div>
     );
@@ -79,7 +78,7 @@ class ProductInfoDialog extends Component {
           });
         break;
       case this.urlExtractor.SHOPEE_VN:
-        const ids = this.urlExtractor.extractShopeeProductIds();
+        const ids = this.urlExtractor.extractShopeeProductIds(this.props.link);
         this.productService
           .getProductInformation(hostname, ids.itemId, ids.shopId)
           .then((product) => {
@@ -95,7 +94,7 @@ class ProductInfoDialog extends Component {
   };
 
   trackProductInformation = () => {
-    const productId = this.extractTikiProductId();
+    const productId = this.urlExtractor.extractTikiProductId(this.props.link);
     fetch(`http://localhost:3001/api/product/${productId}`, {
       method: "POST",
       headers: {
