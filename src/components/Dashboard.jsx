@@ -111,12 +111,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    const formatCurrency = (value) => {
-      return value.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    };
     return (
       <div className="grid">
         <div className="col-12 xl:col-12">
