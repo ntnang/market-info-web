@@ -31,10 +31,10 @@ const AppTopbar = (props) => {
           <InputText
             value={props.link}
             placeholder="Paste Tiki/Shopee link here..."
-            onChange={props.onInputValueChanged}
-            onKeyDown={props.onEnterKeyDown}
+            onChange={props.onProductLinkInputValueChanged}
+            onKeyDown={props.onProductLinkInputKeyDown}
           />
-          <Button label="Get" />
+          <Button label="Get" onClick={props.onGetButtonClicked} />
         </div>
       </div>
 

@@ -35,7 +35,7 @@ const App = () => {
   const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
 
   const [isTopBarVisible, setIsTopBarVisible] = useState(false);
-  const [link, setLink] = useState();
+  const [productLink, setProductLink] = useState();
   const [isProductInfoDialogVisible, setIsProductInfoDialogVisible] =
     useState(false);
 
@@ -132,14 +132,20 @@ const App = () => {
     return window.innerWidth >= 992;
   };
 
-  const onInputValueChanged = (event) => {
-    setLink(event.target.value);
+  const onProductLinkInputValueChanged = (event) => {
+    setProductLink(event.target.value);
   };
 
-  const onEnterKeyDown = (event) => {
+  const onProductLinkInputKeyDown = (event) => {
     if (event.key === "Enter") {
       showProductInfoDialog();
+      setIsTopBarVisible(false);
     }
+  };
+
+  const onGetButtonClicked = () => {
+    showProductInfoDialog();
+    setIsTopBarVisible(false);
   };
 
   const showProductInfoDialog = () => {
@@ -201,9 +207,10 @@ const App = () => {
         mobileTopbarMenuActive={mobileTopbarMenuActive}
         onMobileTopbarMenuClick={onMobileTopbarMenuClick}
         onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}
-        link={link}
-        onInputValueChanged={onInputValueChanged}
-        onEnterKeyDown={onEnterKeyDown}
+        productLink={productLink}
+        onProductLinkInputValueChanged={onProductLinkInputValueChanged}
+        onProductLinkInputKeyDown={onProductLinkInputKeyDown}
+        onGetButtonClicked={onGetButtonClicked}
       />
 
       <Sidebar
@@ -214,18 +221,18 @@ const App = () => {
         <div className="col-12 md:col-6">
           <div className="p-inputgroup">
             <InputText
-              value={link}
+              value={productLink}
               placeholder="Paste Tiki/Shopee link here..."
-              onChange={onInputValueChanged}
-              onKeyDown={onEnterKeyDown}
+              onChange={onProductLinkInputValueChanged}
+              onKeyDown={onProductLinkInputKeyDown}
             />
-            <Button label="Get" />
+            <Button label="Get" onClick={onGetButtonClicked} />
           </div>
         </div>
       </Sidebar>
 
       <ProductInfoDialog
-        link={link}
+        link={productLink}
         isDialogVisible={isProductInfoDialogVisible}
         onHide={hideProductInfoDialog}
       />
