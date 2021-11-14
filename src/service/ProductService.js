@@ -26,5 +26,27 @@ class ProductService {
         return history;
       });
   }
+
+  saveProductHistories(productId, product) {
+    fetch(`http://localhost:3001/api/product/${productId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product, this.replacer),
+    });
+  }
+
+  replacer(key, value) {
+    if (value instanceof Map) {
+      return {
+        dataType: "Map",
+        value: Array.from(value.entries()), // or with spread: value: [...value]
+      };
+    } else {
+      return value;
+    }
+  }
 }
 export default ProductService;
