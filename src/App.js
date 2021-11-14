@@ -9,6 +9,7 @@ import { AppMenu } from "./AppMenu";
 import { AppConfig } from "./AppConfig";
 
 import Dashboard from "./components/Dashboard";
+import ProductInfoDialog from "./components/ProductInfoDialog";
 
 import PrimeReact from "primereact/api";
 import { Sidebar } from "primereact/sidebar";
@@ -32,7 +33,11 @@ const App = () => {
   const [overlayMenuActive, setOverlayMenuActive] = useState(false);
   const [mobileMenuActive, setMobileMenuActive] = useState(false);
   const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
+
   const [isTopBarVisible, setIsTopBarVisible] = useState(false);
+  const [link, setLink] = useState();
+  const [isProductInfoDialogVisible, setIsProductInfoDialogVisible] =
+    useState(false);
 
   PrimeReact.ripple = true;
 
@@ -122,8 +127,27 @@ const App = () => {
       setMobileMenuActive(false);
     }
   };
+
   const isDesktop = () => {
     return window.innerWidth >= 992;
+  };
+
+  const onInputValueChanged = (event) => {
+    setLink(event.target.value);
+  };
+
+  const onEnterKeyDown = (event) => {
+    if (event.key === "Enter") {
+      showProductInfoDialog();
+    }
+  };
+
+  const showProductInfoDialog = () => {
+    setIsProductInfoDialogVisible(true);
+  };
+
+  const hideProductInfoDialog = () => {
+    setIsProductInfoDialogVisible(false);
   };
 
   const menu = [
@@ -177,6 +201,9 @@ const App = () => {
         mobileTopbarMenuActive={mobileTopbarMenuActive}
         onMobileTopbarMenuClick={onMobileTopbarMenuClick}
         onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}
+        link={link}
+        onInputValueChanged={onInputValueChanged}
+        onEnterKeyDown={onEnterKeyDown}
       />
 
       <Sidebar
@@ -186,11 +213,22 @@ const App = () => {
       >
         <div className="col-12 md:col-6">
           <div className="p-inputgroup">
-            <Button label="Search" />
-            <InputText placeholder="Keyword" />
+            <InputText
+              value={link}
+              placeholder="Paste Tiki/Shopee link here..."
+              onChange={onInputValueChanged}
+              onKeyDown={onEnterKeyDown}
+            />
+            <Button label="Get" />
           </div>
         </div>
       </Sidebar>
+
+      <ProductInfoDialog
+        link={link}
+        isDialogVisible={isProductInfoDialogVisible}
+        onHide={hideProductInfoDialog}
+      />
 
       <div className="layout-sidebar" onClick={onSidebarClick}>
         <AppMenu
