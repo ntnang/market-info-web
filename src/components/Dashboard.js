@@ -24,7 +24,6 @@ const Dashboard = () => {
     .reverse();
 
   useEffect(async () => {
-    console.log("useEffect");
     const lastSevenWeekDayNames = lastSevenDates.map(
       (date) => weekDayNames[date.getDay()]
     );

@@ -9,12 +9,17 @@ import { AppMenu } from "./AppMenu";
 import { AppConfig } from "./AppConfig";
 
 import Dashboard from "./components/Dashboard";
-import ProductInfoDialog from "./components/ProductInfoDialog";
+import ProductInfo from "./components/ProductInfo";
 
 import PrimeReact from "primereact/api";
 import { Sidebar } from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+
+import ProductService from "./service/ProductService";
+import UrlExtractor from "./util/UrlExtractor";
+import react from "react";
 
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -35,9 +40,23 @@ const App = () => {
   const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
 
   const [isTopBarVisible, setIsTopBarVisible] = useState(false);
+  const [
+    isProductInfoFullScreenPopupVisible,
+    setIsProductInfoFullScreenPopupVisible,
+  ] = useState(false);
   const [productLink, setProductLink] = useState();
   const [isProductInfoDialogVisible, setIsProductInfoDialogVisible] =
     useState(false);
+  const [product, setProduct] = useState({
+    name: "",
+    imagesUrls: [],
+    origin: "",
+    sellers: [],
+    lastTrackedDate: null,
+  });
+
+  const productService = new ProductService();
+  const urlExtractor = new UrlExtractor();
 
   PrimeReact.ripple = true;
 
@@ -51,6 +70,12 @@ const App = () => {
       removeClass(document.body, "body-overflow-hidden");
     }
   }, [mobileMenuActive]);
+
+  useEffect(() => {
+    if (productLink) {
+      getProductInformation();
+    }
+  }, [productLink]);
 
   const onInputStyleChange = (inputStyle) => {
     setInputStyle(inputStyle);
@@ -136,17 +161,17 @@ const App = () => {
     setProductLink(event.target.value);
   };
 
-  const onProductLinkInputKeyDown = (event) => {
+  function onProductLinkInputKeyDown(event, callback) {
     if (event.key === "Enter") {
-      showProductInfoDialog();
       setIsTopBarVisible(false);
+      callback();
     }
-  };
+  }
 
-  const onGetButtonClicked = () => {
-    showProductInfoDialog();
+  function onGetButtonClicked(callback) {
     setIsTopBarVisible(false);
-  };
+    callback();
+  }
 
   const showProductInfoDialog = () => {
     setIsProductInfoDialogVisible(true);
@@ -154,6 +179,64 @@ const App = () => {
 
   const hideProductInfoDialog = () => {
     setIsProductInfoDialogVisible(false);
+  };
+
+  const showProductInfoFullScreenPopup = () => {
+    setIsProductInfoFullScreenPopupVisible(true);
+  };
+
+  const hideProductInfoFullScreenPopup = () => {
+    setIsProductInfoFullScreenPopupVisible(false);
+  };
+
+  const getProductInformation = () => {
+    const hostname = urlExtractor.extractHostname(productLink);
+    switch (hostname) {
+      case urlExtractor.TIKI_VN:
+        const productId = urlExtractor.extractTikiProductId(productLink);
+        productService
+          .getProductInformation(hostname, productId)
+          .then((product) => {
+            setProduct(product);
+          });
+        break;
+      case urlExtractor.SHOPEE_VN:
+        const ids = urlExtractor.extractShopeeProductIds(productLink);
+        productService
+          .getProductInformation(hostname, ids.itemId, ids.shopId)
+          .then((product) => {
+            setProduct(product);
+          });
+        break;
+      default:
+        alert("Not supported!");
+        break;
+    }
+  };
+
+  function trackProductInformation(callback) {
+    const productId = urlExtractor.extractTikiProductId(productLink);
+    productService.saveProductHistories(productId, product);
+    callback();
+  }
+
+  const getFooter = () => {
+    return (
+      <div>
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          onClick={hideProductInfoDialog}
+          className="p-button-text"
+        />
+        <Button
+          label="Track"
+          icon="pi pi-check"
+          className="btn-primary"
+          onClick={() => trackProductInformation(hideProductInfoDialog)}
+        />
+      </div>
+    );
   };
 
   const menu = [
@@ -209,8 +292,10 @@ const App = () => {
         onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}
         productLink={productLink}
         onProductLinkInputValueChanged={onProductLinkInputValueChanged}
-        onProductLinkInputKeyDown={onProductLinkInputKeyDown}
-        onGetButtonClicked={onGetButtonClicked}
+        onProductLinkInputKeyDown={(event) =>
+          onProductLinkInputKeyDown(event, showProductInfoDialog)
+        }
+        onGetButtonClicked={() => onGetButtonClicked(showProductInfoDialog)}
       />
 
       <Sidebar
@@ -224,18 +309,36 @@ const App = () => {
               value={productLink}
               placeholder="Paste Tiki/Shopee link here..."
               onChange={onProductLinkInputValueChanged}
-              onKeyDown={onProductLinkInputKeyDown}
+              onKeyDown={(event) =>
+                onProductLinkInputKeyDown(event, showProductInfoFullScreenPopup)
+              }
             />
-            <Button label="Get" onClick={onGetButtonClicked} />
+            <Button
+              label="Get"
+              onClick={() => onGetButtonClicked(showProductInfoFullScreenPopup)}
+            />
           </div>
         </div>
       </Sidebar>
 
-      <ProductInfoDialog
-        link={productLink}
-        isDialogVisible={isProductInfoDialogVisible}
+      <Sidebar
+        visible={isProductInfoFullScreenPopupVisible}
+        fullScreen
+        onHide={hideProductInfoFullScreenPopup}
+      >
+        <ProductInfo product={product} />
+      </Sidebar>
+
+      <Dialog
+        header="Product information"
+        footer={getFooter}
+        visible={isProductInfoDialogVisible}
+        style={{ width: "50vw" }}
         onHide={hideProductInfoDialog}
-      />
+        modal
+      >
+        <ProductInfo product={product} />
+      </Dialog>
 
       <div className="layout-sidebar" onClick={onSidebarClick}>
         <AppMenu
