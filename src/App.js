@@ -333,9 +333,11 @@ const App = () => {
         header="Product information"
         footer={getFooter}
         visible={isProductInfoDialogVisible}
+        breakpoints={{ "960px": "75vw", "640px": "100vw" }}
         style={{ width: "50vw" }}
         onHide={hideProductInfoDialog}
         modal
+        maximizable
       >
         <ProductInfo product={product} />
       </Dialog>

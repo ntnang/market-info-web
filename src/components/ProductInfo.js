@@ -3,7 +3,7 @@ import { Carousel } from "primereact/carousel";
 
 const ProductInfo = (props) => {
   const getImageTemplateForCarousel = (imgUrl) => {
-    return <img src={imgUrl} />;
+    return <img src={imgUrl} width="300" />;
   };
 
   return (
