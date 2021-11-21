@@ -9,7 +9,7 @@ const ProductInfo = (props) => {
 
   return (
     <React.Fragment>
-      <div>{props.product.name}</div>
+      <div className="product-name">{props.product.name}</div>
       <Carousel
         value={props.product.imagesUrls}
         itemTemplate={getImageTemplateForCarousel}

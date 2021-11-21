@@ -19,7 +19,6 @@ import { Dialog } from "primereact/dialog";
 
 import ProductService from "./service/ProductService";
 import UrlExtractor from "./util/UrlExtractor";
-import react from "react";
 
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -228,24 +227,39 @@ const App = () => {
     callback();
   }
 
-  const getFooter = () => {
-    return (
-      <div>
-        <Button
-          label="Cancel"
-          icon="pi pi-times"
-          onClick={hideProductInfoDialog}
-          className="p-button-text"
-        />
-        <Button
-          label="Track"
-          icon="pi pi-check"
-          className="btn-primary"
-          onClick={() => trackProductInformation(hideProductInfoDialog)}
-        />
-      </div>
-    );
-  };
+  const productInfoPopupFooter = (
+    <div>
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        onClick={hideProductInfoFullScreenPopup}
+        className="p-button-text"
+      />
+      <Button
+        label="Track"
+        icon="pi pi-check"
+        className="btn-primary"
+        onClick={() => trackProductInformation(hideProductInfoFullScreenPopup)}
+      />
+    </div>
+  );
+
+  const productInfoDialogFooter = (
+    <div>
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        onClick={hideProductInfoDialog}
+        className="p-button-text"
+      />
+      <Button
+        label="Track"
+        icon="pi pi-check"
+        className="btn-primary"
+        onClick={() => trackProductInformation(hideProductInfoDialog)}
+      />
+    </div>
+  );
 
   const menu = [
     {
@@ -338,13 +352,14 @@ const App = () => {
         fullScreen
         onHide={hideProductInfoFullScreenPopup}
       >
-        <div>Product information</div>
+        <div className="product-info-header">Product information</div>
         <ProductInfo product={product} />
+        <div className="product-info-footer">{productInfoPopupFooter}</div>
       </Sidebar>
 
       <Dialog
         header="Product information"
-        footer={getFooter}
+        footer={productInfoDialogFooter}
         visible={isProductInfoDialogVisible}
         breakpoints={{ "960px": "75vw", "640px": "100vw" }}
         style={{ width: "50vw" }}

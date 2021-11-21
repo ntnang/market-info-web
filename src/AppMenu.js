@@ -134,10 +134,6 @@ export const AppMenu = (props) => {
         onMenuItemClick={props.onMenuItemClick}
         root={true}
       />
-      {/* <a href="https://www.primefaces.org/primeblocks-react" className="block mt-3">
-                <img alt="primeblocks" className="w-full"
-                     src={props.layoutColorMode === 'light' ? 'assets/layout/images/banner-primeblocks.png' : 'assets/layout/images/banner-primeblocks-dark.png'}/>
-            </a> */}
     </div>
   );
 };
