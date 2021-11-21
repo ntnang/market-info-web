@@ -163,12 +163,20 @@ const App = () => {
 
   function onProductLinkInputKeyDown(event, callback) {
     if (event.key === "Enter") {
+      if (productLink) {
+        getProductInformation();
+      }
+      setProductLink("");
       setIsTopBarVisible(false);
       callback();
     }
   }
 
-  function onGetButtonClicked(callback) {
+  function onSearchButtonClicked(callback) {
+    if (productLink) {
+      getProductInformation();
+    }
+    setProductLink("");
     setIsTopBarVisible(false);
     callback();
   }
@@ -295,7 +303,9 @@ const App = () => {
         onProductLinkInputKeyDown={(event) =>
           onProductLinkInputKeyDown(event, showProductInfoDialog)
         }
-        onGetButtonClicked={() => onGetButtonClicked(showProductInfoDialog)}
+        onSearchButtonClicked={() =>
+          onSearchButtonClicked(showProductInfoDialog)
+        }
       />
 
       <Sidebar
@@ -307,15 +317,17 @@ const App = () => {
           <div className="p-inputgroup">
             <InputText
               value={productLink}
-              placeholder="Paste Tiki/Shopee link here..."
+              placeholder="Insert keyword or link here..."
               onChange={onProductLinkInputValueChanged}
               onKeyDown={(event) =>
                 onProductLinkInputKeyDown(event, showProductInfoFullScreenPopup)
               }
             />
             <Button
-              label="Get"
-              onClick={() => onGetButtonClicked(showProductInfoFullScreenPopup)}
+              label="Search"
+              onClick={() =>
+                onSearchButtonClicked(showProductInfoFullScreenPopup)
+              }
             />
           </div>
         </div>
@@ -326,6 +338,7 @@ const App = () => {
         fullScreen
         onHide={hideProductInfoFullScreenPopup}
       >
+        <div>Product information</div>
         <ProductInfo product={product} />
       </Sidebar>
 

@@ -30,11 +30,11 @@ const AppTopbar = (props) => {
         <div className="p-inputgroup">
           <InputText
             value={props.link}
-            placeholder="Paste Tiki/Shopee link here..."
+            placeholder="Insert keyword or link here..."
             onChange={props.onProductLinkInputValueChanged}
             onKeyDown={props.onProductLinkInputKeyDown}
           />
-          <Button label="Get" onClick={props.onGetButtonClicked} />
+          <Button label="Search" onClick={props.onSearchButtonClicked} />
         </div>
       </div>
 
@@ -57,8 +57,8 @@ const AppTopbar = (props) => {
             className="p-link layout-topbar-button"
             onClick={props.onMobileSubTopbarMenuClick}
           >
-            <i className="pi pi-link" />
-            <span>Product link</span>
+            <i className="pi pi-search" />
+            <span>Search</span>
           </button>
         </li>
       </ul>
