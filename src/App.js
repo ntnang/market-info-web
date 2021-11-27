@@ -70,12 +70,6 @@ const App = () => {
     }
   }, [mobileMenuActive]);
 
-  useEffect(() => {
-    if (productLink) {
-      getProductInformation();
-    }
-  }, [productLink]);
-
   const onInputStyleChange = (inputStyle) => {
     setInputStyle(inputStyle);
   };
