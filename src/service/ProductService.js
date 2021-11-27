@@ -8,7 +8,7 @@ class ProductService {
   getProductInformation(origin, productId, shopId = "") {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
-      `http://localhost:3001/api/${origin}/product/history/${productId}/${shopId}`
+      `http://localhost:3001/api/${origin}/product/${productId}/${shopId}`
     )
       .then((res) => res.json())
       .then((product) => {
