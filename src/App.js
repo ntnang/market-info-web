@@ -272,7 +272,7 @@ const App = () => {
       items: [
         {
           label: "Products",
-          icon: "pi pi-box",
+          icon: "pi pi-fw pi-box",
           to: "/products",
         },
       ],
