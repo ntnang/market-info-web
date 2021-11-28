@@ -9,6 +9,7 @@ import { AppMenu } from "./AppMenu";
 import { AppConfig } from "./AppConfig";
 
 import Dashboard from "./components/Dashboard";
+import Products from "./components/Products";
 import ProductInfo from "./components/ProductInfo";
 
 import PrimeReact from "primereact/api";
@@ -266,6 +267,16 @@ const App = () => {
         },
       ],
     },
+    {
+      label: "Management",
+      items: [
+        {
+          label: "Products",
+          icon: "pi pi-box",
+          to: "/products",
+        },
+      ],
+    },
   ];
 
   const addClass = (element, className) => {
@@ -375,6 +386,7 @@ const App = () => {
       <div className="layout-main-container">
         <div className="layout-main">
           <Route path="/" exact component={Dashboard} />
+          <Route path="/products" component={Products} />
         </div>
 
         <AppFooter layoutColorMode={layoutColorMode} />

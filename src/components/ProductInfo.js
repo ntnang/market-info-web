@@ -30,7 +30,7 @@ const ProductInfo = (props) => {
         itemTemplate={getImageTemplateForCarousel}
       />
       <DataTable
-        value={Array.from(props.product.sellers, ([key, value]) => value)}
+        value={Array.from(props.product.sellers, ([_, value]) => value)}
         expandedRows={expandedRows}
         onRowToggle={(e) => setExpandedRows(e.data)}
         rowExpansionTemplate={rowExpansionTemplate}

@@ -112,7 +112,7 @@ const Dashboard = () => {
     <div className="grid">
       <div className="col-12 xl:col-12">
         <div className="card">
-          <h5>Last 7 days</h5>
+          <h5>{latestProduct.name}</h5>
           <Chart type="line" data={latestProduct.history} />
         </div>
       </div>
