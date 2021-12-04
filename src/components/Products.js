@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import ProductService from "../service/ProductService";
+import "../scss/products.scss";
 
 const Products = () => {
   const [products, setProducts] = useState();
@@ -39,7 +40,7 @@ const Products = () => {
 
   const renderListItem = (product) => {
     return (
-      <div className="p-col-12">
+      <div className="col-12">
         <div className="product-list-item">
           <img
             src={`${product.imagesUrls[0]}`}
@@ -62,18 +63,20 @@ const Products = () => {
 
   const renderGridItem = (product) => {
     return (
-      <div className="p-col-12 p-md-4">
+      <div className="col-4">
         <div className="product-grid-item card">
           <div className="product-grid-item-top"></div>
           <div className="product-grid-item-content">
-            <img
-              src={product.imagesUrls[0]}
-              onError={(e) =>
-                (e.target.src =
-                  "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
-              }
-              alt={product.name}
-            />
+            <div className="flex justify-content-center align-items-center">
+              <img
+                src={product.imagesUrls[0]}
+                onError={(e) =>
+                  (e.target.src =
+                    "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+                }
+                alt={product.name}
+              />
+            </div>
             <div className="product-name">{product.name}</div>
           </div>
           <div className="product-grid-item-bottom">

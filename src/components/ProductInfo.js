@@ -8,7 +8,11 @@ const ProductInfo = (props) => {
   const [expandedRows, setExpandedRows] = useState(null);
 
   const getImageTemplateForCarousel = (imgUrl) => {
-    return <img src={imgUrl} />;
+    return (
+      <div className="flex justify-content-center align-items-center">
+        <img src={imgUrl} />
+      </div>
+    );
   };
 
   const rowExpansionTemplate = (data) => {
