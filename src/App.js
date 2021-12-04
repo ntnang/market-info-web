@@ -160,7 +160,6 @@ const App = () => {
       if (productLink) {
         getProductInformation();
       }
-      setProductLink("");
       setIsTopBarVisible(false);
       callback();
     }
@@ -170,7 +169,6 @@ const App = () => {
     if (productLink) {
       getProductInformation();
     }
-    setProductLink("");
     setIsTopBarVisible(false);
     callback();
   }
@@ -181,6 +179,7 @@ const App = () => {
 
   const hideProductInfoDialog = () => {
     setIsProductInfoDialogVisible(false);
+    setProductLink("");
   };
 
   const showProductInfoFullScreenPopup = () => {
@@ -189,6 +188,7 @@ const App = () => {
 
   const hideProductInfoFullScreenPopup = () => {
     setIsProductInfoFullScreenPopupVisible(false);
+    setProductLink("");
   };
 
   const getProductInformation = () => {
@@ -217,6 +217,7 @@ const App = () => {
   };
 
   function trackProductInformation(callback) {
+    console.log(productLink);
     const productId = urlExtractor.extractTikiProductId(productLink);
     productService.saveProductHistories(productId, product);
     callback();
