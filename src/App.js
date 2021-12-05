@@ -20,6 +20,7 @@ import { Dialog } from "primereact/dialog";
 
 import ProductService from "./service/ProductService";
 import UrlExtractor from "./util/UrlExtractor";
+import ProductOrigins from "./constants/ProductOrigins";
 
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -57,6 +58,7 @@ const App = () => {
 
   const productService = new ProductService();
   const urlExtractor = new UrlExtractor();
+  const productOrigins = new ProductOrigins();
 
   PrimeReact.ripple = true;
 
@@ -194,7 +196,7 @@ const App = () => {
   const getProductInformation = () => {
     const hostname = urlExtractor.extractHostname(productLink);
     switch (hostname) {
-      case urlExtractor.TIKI_VN:
+      case productOrigins.TIKI_VN:
         const productId = urlExtractor.extractTikiProductId(productLink);
         productService
           .getProductInformation(hostname, productId)
@@ -202,7 +204,7 @@ const App = () => {
             setProduct(product);
           });
         break;
-      case urlExtractor.SHOPEE_VN:
+      case productOrigins.SHOPEE_VN:
         const ids = urlExtractor.extractShopeeProductIds(productLink);
         productService
           .getProductInformation(hostname, ids.itemId, ids.shopId)

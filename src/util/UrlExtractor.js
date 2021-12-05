@@ -1,7 +1,4 @@
 class UrlExtractor {
-  TIKI_VN = "tiki.vn";
-  SHOPEE_VN = "shopee.vn";
-
   extractTikiProductId(url) {
     const start = url.lastIndexOf("-p") + 2;
     const end = url.search(".html");

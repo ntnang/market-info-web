@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { DataScroller } from "primereact/datascroller";
 import ProductService from "../service/ProductService";
+import ProductOrigins from "../constants/ProductOrigins";
 import "../scss/products.scss";
 
 const Products = () => {
   const [products, setProducts] = useState();
 
   const productService = new ProductService();
+  const productOrigins = new ProductOrigins();
 
   useEffect(() => {
     productService.getAllProducts().then((products) => {
@@ -17,7 +19,16 @@ const Products = () => {
   const itemTemplate = (product) => {
     return (
       <div className="product-item card">
-        <div className="product-item-top"></div>
+        <div className="product-item-top">
+          <img
+            src={`https://${product.origin}/favicon.ico`}
+            onError={(e) =>
+              (e.target.src =
+                "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+            }
+            alt={product.origin}
+          />
+        </div>
         <div className="product-item-content">
           <div className="flex justify-content-center align-items-center">
             <img
