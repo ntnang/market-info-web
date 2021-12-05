@@ -7,5 +7,10 @@
       width: 75%;
       margin: 2rem 0;
     }
+    .product-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }

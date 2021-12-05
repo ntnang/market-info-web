@@ -43,7 +43,7 @@ const Products = () => {
       <div className="col-12">
         <div className="product-list-item">
           <img
-            src={`${product.imagesUrls[0]}`}
+            src={`${product.thumbnailUrl}`}
             onError={(e) =>
               (e.target.src =
                 "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
@@ -69,7 +69,7 @@ const Products = () => {
           <div className="product-grid-item-content">
             <div className="flex justify-content-center align-items-center">
               <img
-                src={product.imagesUrls[0]}
+                src={product.thumbnailUrl}
                 onError={(e) =>
                   (e.target.src =
                     "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
