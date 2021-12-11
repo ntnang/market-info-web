@@ -40,8 +40,7 @@ const Dashboard = () => {
 
   const buildChartDataSet = (productHistory) => {
     const datasets = [];
-    const sellerHistoryMap = new Map(Object.entries(productHistory.sellers));
-    for (let sellerHistory of sellerHistoryMap.values()) {
+    for (let sellerHistory of productHistory.sellers.values()) {
       const lastSevenDaysDataSet = buildLastSevenDaysDataSet(sellerHistory);
       if (
         lastSevenDaysDataSet.data &&

@@ -22,8 +22,11 @@ class ProductService {
   findLastTrackedProductHistories() {
     return fetch("http://localhost:3001/api/last-product/history")
       .then((res) => res.json())
-      .then((history) => {
-        return history;
+      .then((product) => {
+        if (Array.isArray(product.sellers)) {
+          product.sellers = new Map(product.sellers);
+        }
+        return product;
       });
   }
 
@@ -38,7 +41,7 @@ class ProductService {
     });
   }
 
-  replacer(key, value) {
+  replacer(_, value) {
     if (value instanceof Map) {
       return {
         dataType: "Map",

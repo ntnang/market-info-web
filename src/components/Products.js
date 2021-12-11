@@ -43,7 +43,12 @@ const Products = () => {
           <div className="product-name">{product.name}</div>
         </div>
         <div className="product-item-bottom">
-          {/* <span className="product-price">${product.price}</span> */}
+          <span className="product-price">
+            {
+              Array.from(product.sellers, ([_, value]) => value)[0]
+                .priceHistories[0].price
+            }
+          </span>
         </div>
       </div>
     );
@@ -53,7 +58,7 @@ const Products = () => {
     <div className="col-12">
       <div className="card">
         <h5>Tracked Products</h5>
-        <DataScroller value={products} itemTemplate={itemTemplate} rows={3} />
+        <DataScroller value={products} itemTemplate={itemTemplate} rows={10} />
       </div>
     </div>
   );
