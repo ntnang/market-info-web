@@ -7,6 +7,10 @@ const Products = () => {
   const [products, setProducts] = useState();
 
   const productService = new ProductService();
+  const currencyFormatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
 
   useEffect(() => {
     productService.getAllProducts().then((products) => {
@@ -56,10 +60,7 @@ const Products = () => {
               height={32}
             />
             <span className="product-price">
-              {new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(latestPriceOfFirstSeller.price)}
+              {currencyFormatter.format(latestPriceOfFirstSeller.price)}
             </span>
           </div>
         </div>
