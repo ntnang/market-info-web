@@ -19,6 +19,13 @@
           white-space: nowrap;
         }
       }
+      .product-item-bottom {
+        margin-top: 5px;
+        .product-price {
+          line-height: 32px;
+          margin-left: 5px;
+        }
+      }
     }
   }
 }
