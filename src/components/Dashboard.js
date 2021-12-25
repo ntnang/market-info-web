@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
 import ProductService from "../service/ProductService";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [latestProduct, setLatestProduct] = useState({
     name: "",
     history: {
@@ -36,7 +36,7 @@ const Dashboard = () => {
         datasets: buildChartDataSet(productHistories),
       },
     });
-  }, []);
+  }, [props.lastChangeDateTime]);
 
   const buildChartDataSet = (productHistory) => {
     const datasets = [];

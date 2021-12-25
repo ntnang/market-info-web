@@ -39,6 +39,7 @@ const App = () => {
   const [overlayMenuActive, setOverlayMenuActive] = useState(false);
   const [mobileMenuActive, setMobileMenuActive] = useState(false);
   const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
+  const [lastChangeDateTime, setLastChangeDateTime] = useState(new Date());
 
   const [isTopBarVisible, setIsTopBarVisible] = useState(false);
   const [
@@ -218,10 +219,15 @@ const App = () => {
     }
   };
 
-  function trackProductInformation(callback) {
-    console.log(productLink);
+  async function trackProduct(callback) {
     const productId = urlExtractor.extractTikiProductId(productLink);
-    productService.saveProductHistories(productId, product);
+    const isChanged = await productService.saveProductHistories(
+      productId,
+      product
+    );
+    if (isChanged) {
+      setLastChangeDateTime(new Date());
+    }
     callback();
   }
 
@@ -237,7 +243,7 @@ const App = () => {
         label="Track"
         icon="pi pi-check"
         className="btn-primary"
-        onClick={() => trackProductInformation(hideProductInfoFullScreenPopup)}
+        onClick={() => trackProduct(hideProductInfoFullScreenPopup)}
       />
     </div>
   );
@@ -254,7 +260,7 @@ const App = () => {
         label="Track"
         icon="pi pi-check"
         className="btn-primary"
-        onClick={() => trackProductInformation(hideProductInfoDialog)}
+        onClick={() => trackProduct(hideProductInfoDialog)}
       />
     </div>
   );
@@ -388,8 +394,15 @@ const App = () => {
 
       <div className="layout-main-container">
         <div className="layout-main">
-          <Route path="/" exact component={Dashboard} />
-          <Route path="/products" component={Products} />
+          <Route
+            path="/"
+            exact
+            render={() => <Dashboard lastChangeDateTime={lastChangeDateTime} />}
+          />
+          <Route
+            path="/products"
+            render={() => <Products lastChangeDateTime={lastChangeDateTime} />}
+          />
         </div>
 
         <AppFooter layoutColorMode={layoutColorMode} />

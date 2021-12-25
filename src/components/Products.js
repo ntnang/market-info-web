@@ -3,7 +3,7 @@ import { DataScroller } from "primereact/datascroller";
 import ProductService from "../service/ProductService";
 import "../scss/products.scss";
 
-const Products = () => {
+const Products = (props) => {
   const [products, setProducts] = useState();
 
   const productService = new ProductService();
@@ -16,7 +16,7 @@ const Products = () => {
     productService.getAllProducts().then((products) => {
       setProducts(products);
     });
-  }, []);
+  }, [props.lastChangeDateTime]);
 
   const itemTemplate = (product) => {
     const firstSeller = Array.from(product.sellers, ([_, value]) => value)[0];

@@ -31,14 +31,14 @@ class ProductService {
   }
 
   saveProductHistories(productId, product) {
-    fetch(`http://localhost:3001/api/product/${productId}`, {
+    return fetch(`http://localhost:3001/api/product/${productId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(product, this.replacer),
-    });
+    }).then((res) => res.status === 201);
   }
 
   replacer(_, value) {
