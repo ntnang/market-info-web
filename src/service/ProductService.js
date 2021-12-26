@@ -8,7 +8,21 @@ class ProductService {
   getProductInformation(origin, productId, shopId = "") {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
-      `http://localhost:3001/api/${origin}/product/${productId}/${shopId}`
+      `http://localhost:3001/api/${origin}/product/current-info/${productId}/${shopId}`
+    )
+      .then((res) => res.json())
+      .then((product) => {
+        if (Array.isArray(product.sellers)) {
+          product.sellers = new Map(product.sellers);
+        }
+        return product;
+      });
+  }
+
+  getProductHistory(origin, productId) {
+    // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
+    return fetch(
+      `http://localhost:3001/api/${origin}/product/history/${productId}`
     )
       .then((res) => res.json())
       .then((product) => {
@@ -20,7 +34,7 @@ class ProductService {
   }
 
   findLastTrackedProductHistories() {
-    return fetch("http://localhost:3001/api/last-product/history")
+    return fetch("http://localhost:3001/api/product/latest/history")
       .then((res) => res.json())
       .then((product) => {
         if (Array.isArray(product.sellers)) {

@@ -29,6 +29,7 @@ import "prismjs/themes/prism-coy.css";
 import "./layout/flags/flags.css";
 import "./layout/layout.scss";
 import "./App.scss";
+import ProductDetails from "./components/ProductDetails";
 
 const App = () => {
   const [layoutMode, setLayoutMode] = useState("static");
@@ -403,6 +404,7 @@ const App = () => {
             path="/products"
             render={() => <Products lastChangeDateTime={lastChangeDateTime} />}
           />
+          <Route path="/product/:origin/:itemId" component={ProductDetails} />
         </div>
 
         <AppFooter layoutColorMode={layoutColorMode} />
