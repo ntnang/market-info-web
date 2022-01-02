@@ -373,7 +373,7 @@ const App = () => {
         onHide={hideProductInfoFullScreenPopup}
       >
         <div className="product-info-header">Product information</div>
-        <ProductInfo product={product} />
+        <ProductInfo product={product} currencyFormatter={currencyFormatter} />
         <div className="product-info-footer">{productInfoPopupFooter}</div>
       </Sidebar>
 
@@ -387,7 +387,7 @@ const App = () => {
         modal
         maximizable
       >
-        <ProductInfo product={product} />
+        <ProductInfo product={product} currencyFormatter={currencyFormatter} />
       </Dialog>
 
       <div className="layout-sidebar" onClick={onSidebarClick}>
