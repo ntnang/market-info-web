@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ProductService from "../service/ProductService";
+import ProductInfo from "./ProductInfo";
 
 const ProductDetails = (props) => {
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState({
+    name: "",
+    imagesUrls: [],
+    origin: "",
+    sellers: [],
+    lastTrackedDate: null,
+  });
 
   const productService = new ProductService();
 
@@ -14,7 +21,11 @@ const ProductDetails = (props) => {
       });
   }, []);
 
-  return <div></div>;
+  return (
+    <div className="card">
+      <ProductInfo product={product} />
+    </div>
+  );
 };
 
 export default ProductDetails;

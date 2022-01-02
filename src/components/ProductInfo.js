@@ -27,7 +27,17 @@ const ProductInfo = (props) => {
   return (
     <React.Fragment>
       <div className="product-name">
-        [{props.product.origin}] {props.product.name}
+        <img
+          src={`https://${props.product.origin}/favicon.ico`}
+          title={props.product.origin}
+          alt={props.product.origin}
+          onError={(e) =>
+            (e.target.src =
+              "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+          }
+          alt={props.product.origin}
+        />
+        {props.product.name}
       </div>
       <Carousel
         value={props.product.imagesUrls}
