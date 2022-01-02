@@ -15,10 +15,14 @@ const ProductInfo = (props) => {
     );
   };
 
+  const priceTemplate = (data) => {
+    return props.currencyFormatter.format(data.price);
+  };
+
   const rowExpansionTemplate = (data) => {
     return (
       <DataTable value={data.priceHistories}>
-        <Column field="price" header="Price" />
+        <Column field="price" header="Price" body={priceTemplate} />
         <Column field="trackedDate" header="Date" />
       </DataTable>
     );
@@ -26,7 +30,7 @@ const ProductInfo = (props) => {
 
   return (
     <React.Fragment>
-      <div className="product-name">
+      <div className="flex">
         <img
           src={`https://${props.product.origin}/favicon.ico`}
           title={props.product.origin}
@@ -37,7 +41,7 @@ const ProductInfo = (props) => {
           }
           alt={props.product.origin}
         />
-        {props.product.name}
+        <div className="product-name">{props.product.name}</div>
       </div>
       <Carousel
         value={props.product.imagesUrls}

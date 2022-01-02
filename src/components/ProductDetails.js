@@ -15,7 +15,7 @@ const ProductDetails = (props) => {
 
   useEffect(() => {
     productService
-      .getProductHistory(props.match.params.origin, props.match.params.itemId)
+      .getProductHistory(props.matchParams.origin, props.matchParams.itemId)
       .then((product) => {
         setProduct(product);
       });
@@ -23,7 +23,10 @@ const ProductDetails = (props) => {
 
   return (
     <div className="card">
-      <ProductInfo product={product} />
+      <ProductInfo
+        product={product}
+        currencyFormatter={props.currencyFormatter}
+      />
     </div>
   );
 };

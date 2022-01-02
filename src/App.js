@@ -62,6 +62,11 @@ const App = () => {
   const urlExtractor = new UrlExtractor();
   const productOrigins = new ProductOrigins();
 
+  const currencyFormatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+
   PrimeReact.ripple = true;
 
   let menuClick = false;
@@ -402,9 +407,22 @@ const App = () => {
           />
           <Route
             path="/products"
-            render={() => <Products lastChangeDateTime={lastChangeDateTime} />}
+            render={() => (
+              <Products
+                lastChangeDateTime={lastChangeDateTime}
+                currencyFormatter={currencyFormatter}
+              />
+            )}
           />
-          <Route path="/product/:origin/:itemId" component={ProductDetails} />
+          <Route
+            path="/product/:origin/:itemId"
+            render={(route) => (
+              <ProductDetails
+                matchParams={route.match.params}
+                currencyFormatter={currencyFormatter}
+              />
+            )}
+          />
         </div>
 
         <AppFooter layoutColorMode={layoutColorMode} />
