@@ -19,6 +19,21 @@ const ProductInfo = (props) => {
     return props.currencyFormatter.format(data.price);
   };
 
+  const sellerTemplate = (data) => {
+    return (
+      <div className="flex">
+        <img
+          src={data.logoUrl}
+          title={data.name}
+          alt={data.name}
+          width={32}
+          height={32}
+        />
+        <div className="text-aside-logo">{data.name}</div>
+      </div>
+    );
+  };
+
   const rowExpansionTemplate = (data) => {
     return (
       <DataTable value={data.priceHistories}>
@@ -41,7 +56,7 @@ const ProductInfo = (props) => {
           }
           alt={props.product.origin}
         />
-        <div className="product-name">{props.product.name}</div>
+        <div className="product-name text-aside-logo">{props.product.name}</div>
       </div>
       <Carousel
         value={props.product.imagesUrls}
@@ -54,7 +69,7 @@ const ProductInfo = (props) => {
         rowExpansionTemplate={rowExpansionTemplate}
       >
         <Column expander style={{ width: "3em" }} />
-        <Column field="name" header="Seller" />
+        <Column field="name" header="Seller" body={sellerTemplate} />
       </DataTable>
     </React.Fragment>
   );
