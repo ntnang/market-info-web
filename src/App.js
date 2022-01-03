@@ -67,6 +67,11 @@ const App = () => {
     currency: "VND",
   });
 
+  const dateTimeFormatter = new Intl.DateTimeFormat("vi-VN", {
+    dateStyle: "short",
+    timeStyle: "medium",
+  });
+
   PrimeReact.ripple = true;
 
   let menuClick = false;
@@ -373,7 +378,11 @@ const App = () => {
         onHide={hideProductInfoFullScreenPopup}
       >
         <div className="product-info-header">Product information</div>
-        <ProductInfo product={product} currencyFormatter={currencyFormatter} />
+        <ProductInfo
+          product={product}
+          currencyFormatter={currencyFormatter}
+          dateTimeFormatter={dateTimeFormatter}
+        />
         <div className="product-info-footer">{productInfoPopupFooter}</div>
       </Sidebar>
 
@@ -387,7 +396,11 @@ const App = () => {
         modal
         maximizable
       >
-        <ProductInfo product={product} currencyFormatter={currencyFormatter} />
+        <ProductInfo
+          product={product}
+          currencyFormatter={currencyFormatter}
+          dateTimeFormatter={dateTimeFormatter}
+        />
       </Dialog>
 
       <div className="layout-sidebar" onClick={onSidebarClick}>
@@ -420,6 +433,7 @@ const App = () => {
               <ProductDetails
                 matchParams={route.match.params}
                 currencyFormatter={currencyFormatter}
+                dateTimeFormatter={dateTimeFormatter}
               />
             )}
           />

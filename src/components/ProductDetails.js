@@ -26,6 +26,7 @@ const ProductDetails = (props) => {
       <ProductInfo
         product={product}
         currencyFormatter={props.currencyFormatter}
+        dateTimeFormatter={props.dateTimeFormatter}
       />
     </div>
   );

@@ -19,6 +19,10 @@ const ProductInfo = (props) => {
     return props.currencyFormatter.format(data.price);
   };
 
+  const dateTimeTemplate = (data) => {
+    return props.dateTimeFormatter.format(Date.parse(data.trackedDate));
+  };
+
   const sellerTemplate = (data) => {
     return (
       <div className="flex">
@@ -38,7 +42,11 @@ const ProductInfo = (props) => {
     return (
       <DataTable value={data.priceHistories}>
         <Column field="price" header="Price" body={priceTemplate} />
-        <Column field="trackedDate" header="Date" />
+        <Column
+          field="trackedDate"
+          header="Date Time"
+          body={dateTimeTemplate}
+        />
       </DataTable>
     );
   };
