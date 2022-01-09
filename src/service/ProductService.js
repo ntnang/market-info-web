@@ -21,9 +21,7 @@ class ProductService {
 
   getProduct(origin, productId) {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
-    return fetch(
-      `http://localhost:3001/api/${origin}/product/history/${productId}`
-    )
+    return fetch(`http://localhost:3001/api/${origin}/product/${productId}`)
       .then((res) => res.json())
       .then((product) => {
         if (Array.isArray(product.sellers)) {
@@ -34,7 +32,7 @@ class ProductService {
   }
 
   findLastTrackedProduct() {
-    return fetch("http://localhost:3001/api/product/latest/history")
+    return fetch("http://localhost:3001/api/product/latest")
       .then((res) => res.json())
       .then((product) => {
         if (Array.isArray(product.sellers)) {
