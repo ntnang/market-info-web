@@ -1,9 +1,9 @@
-import TimeUnits from "../constants/TimeUnits";
+import TimeUnit from "./TimeUnit";
 
-class TimeSpans {
+class TimeSpan {
   TODAY = {
     label: "Today",
-    unit: TimeUnits.HOUR,
+    unit: TimeUnit.HOUR,
     pointsOfTime: () => {
       const currentDate = new Date();
       const hourOfDay = currentDate.getHours();
@@ -18,7 +18,7 @@ class TimeSpans {
   };
   LAST_24_HOURS = {
     label: "Last 24 hours",
-    unit: TimeUnits.HOUR,
+    unit: TimeUnit.HOUR,
     pointsOfTime: () => {
       return [...Array(24)]
         .map((_, i) => {
@@ -31,7 +31,7 @@ class TimeSpans {
   };
   THIS_WEEK = {
     label: "This week",
-    unit: TimeUnits.DAY,
+    unit: TimeUnit.DAY,
     pointsOfTime: () => {
       const currentDate = new Date();
       const dayOfWeek = currentDate.getDay();
@@ -46,7 +46,7 @@ class TimeSpans {
   };
   LAST_7_DAYS = {
     label: "Last 7 days",
-    unit: TimeUnits.DAY,
+    unit: TimeUnit.DAY,
     pointsOfTime: () => {
       return [...Array(7)]
         .map((_, i) => {
@@ -59,7 +59,7 @@ class TimeSpans {
   };
   THIS_MONTH = {
     label: "This month",
-    unit: TimeUnits.DAY,
+    unit: TimeUnit.DAY,
     pointsOfTime: () => {
       const currentDate = new Date();
       const dayOfMonth = currentDate.getDate();
@@ -74,7 +74,7 @@ class TimeSpans {
   };
   LAST_30_DAYS = {
     label: "Last 30 days",
-    unit: TimeUnits.DAY,
+    unit: TimeUnit.DAY,
     pointsOfTime: () => {
       return [...Array(30)]
         .map((_, i) => {
@@ -87,7 +87,7 @@ class TimeSpans {
   };
   THIS_YEAR = {
     label: "This year",
-    unit: TimeUnits.MONTH,
+    unit: TimeUnit.MONTH,
     pointsOfTime: () => {
       const currentDate = new Date();
       const monthOfYear = currentDate.getMonth();
@@ -102,7 +102,7 @@ class TimeSpans {
   };
   LAST_12_MONTH = {
     label: "Last 12 months",
-    unit: TimeUnits.MONTH,
+    unit: TimeUnit.MONTH,
     pointsOfTime: () => {
       return [...Array(12)]
         .map((_, i) => {
@@ -114,4 +114,4 @@ class TimeSpans {
     },
   };
 }
-export default TimeSpans;
+export default TimeSpan;

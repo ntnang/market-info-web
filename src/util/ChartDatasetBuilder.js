@@ -1,4 +1,4 @@
-import TimeUnits from "../constants/TimeUnits";
+import TimeUnit from "../constants/TimeUnit";
 
 class ChartDatasetBuilder {
   buildChartDataSets(productHistory, timeSpan) {
@@ -62,20 +62,20 @@ class ChartDatasetBuilder {
 
   isDateInTimePeriod(date, timePeriod) {
     switch (timePeriod.unit) {
-      case TimeUnits.YEAR:
+      case TimeUnit.YEAR:
         return date.getFullYear() === timePeriod.getFullYear();
-      case TimeUnits.MONTH:
+      case TimeUnit.MONTH:
         return (
           date.getFullYear() === timePeriod.getFullYear() &&
           date.getMonth() === timePeriod.getMonth()
         );
-      case TimeUnits.DAY:
+      case TimeUnit.DAY:
         return (
           date.getFullYear() === timePeriod.getFullYear() &&
           date.getMonth() === timePeriod.getMonth() &&
           date.getDate() === timePeriod.getDate()
         );
-      case TimeUnits.HOUR:
+      case TimeUnit.HOUR:
         return (
           date.getFullYear() === timePeriod.getFullYear() &&
           date.getMonth() === timePeriod.getMonth() &&

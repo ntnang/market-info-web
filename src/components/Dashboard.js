@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
 import ProductService from "../service/ProductService";
 import ChartDatasetBuilder from "../util/ChartDatasetBuilder";
-import TimeSpans from "../constants/TimeSpans";
+import TimeSpan from "../constants/TimeSpan";
 
 const Dashboard = (props) => {
   const [latestProduct, setLatestProduct] = useState({
@@ -15,13 +15,11 @@ const Dashboard = (props) => {
 
   const productService = new ProductService();
   const chartDatasetBuilder = new ChartDatasetBuilder();
-  const timeSpans = new TimeSpans();
-
-  const weekDayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const timeSpan = new TimeSpan();
 
   useEffect(async () => {
-    const lastSevenWeekDayNames = timeSpans.LAST_7_DAYS.pointsOfTime().map(
-      (date) => weekDayNames[date.getDay()]
+    const lastSevenWeekDayNames = timeSpan.LAST_7_DAYS.pointsOfTime().map(
+      (date) => date.toLocaleDateString("en-US", { weekday: "long" })
     );
     const productHistories =
       await productService.findLastTrackedProductHistories();
@@ -31,7 +29,7 @@ const Dashboard = (props) => {
         labels: lastSevenWeekDayNames,
         datasets: chartDatasetBuilder.buildChartDataSets(
           productHistories,
-          timeSpans.LAST_7_DAYS
+          timeSpan.LAST_7_DAYS
         ),
       },
     });
