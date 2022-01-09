@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
+import { Dropdown } from "primereact/dropdown";
 import ProductService from "../service/ProductService";
 import ChartDatasetBuilder from "../util/ChartDatasetBuilder";
 import TimeSpan from "../constants/TimeSpan";
@@ -17,29 +18,44 @@ const Dashboard = (props) => {
   const chartDatasetBuilder = new ChartDatasetBuilder();
   const timeSpan = new TimeSpan();
 
+  const [selectedTimespan, setSelectedTimespan] = useState(
+    timeSpan.LAST_7_DAYS
+  );
+
   useEffect(async () => {
-    const lastSevenWeekDayNames = timeSpan.LAST_7_DAYS.pointsOfTime().map(
-      (date) => date.toLocaleDateString("en-US", { weekday: "long" })
-    );
+    const displayedPointOfTimeLabels = selectedTimespan
+      .pointsOfTime()
+      .map((date) =>
+        new Intl.DateTimeFormat(
+          "vi-VN",
+          selectedTimespan.displayTimeFormat
+        ).format(date)
+      );
     const productHistories =
       await productService.findLastTrackedProductHistories();
     setLatestProduct({
       name: productHistories.name,
       history: {
-        labels: lastSevenWeekDayNames,
+        labels: displayedPointOfTimeLabels,
         datasets: chartDatasetBuilder.buildChartDataSets(
           productHistories,
           timeSpan.LAST_7_DAYS
         ),
       },
     });
-  }, [props.lastChangeDateTime]);
+  }, [props.lastChangeDateTime, selectedTimespan]);
 
   return (
     <div className="grid">
       <div className="col-12 xl:col-12">
         <div className="card">
           <h5>{latestProduct.name}</h5>
+          <Dropdown
+            options={timeSpan.VALUES}
+            optionLabel="label"
+            value={selectedTimespan}
+            onChange={(e) => setSelectedTimespan(e.value)}
+          />
           <Chart type="line" data={latestProduct.history} />
         </div>
       </div>
