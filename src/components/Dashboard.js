@@ -40,7 +40,7 @@ const Dashboard = (props) => {
           selectedTimespan.displayTimeFormat
         ).format(date)
       );
-    productService.findLastTrackedProductHistories().then((product) => {
+    productService.findLastTrackedProduct().then((product) => {
       setLatestProduct(product);
       setProductPriceHistoryChartModel({
         name: product.name,

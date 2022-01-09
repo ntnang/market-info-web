@@ -211,7 +211,7 @@ const App = () => {
       case productOrigins.TIKI_VN:
         const productId = urlExtractor.extractTikiProductId(productLink);
         productService
-          .getProductInformation(hostname, productId)
+          .getProductCurrentInformationFromOrigin(hostname, productId)
           .then((product) => {
             setProduct(product);
           });
@@ -219,7 +219,11 @@ const App = () => {
       case productOrigins.SHOPEE_VN:
         const ids = urlExtractor.extractShopeeProductIds(productLink);
         productService
-          .getProductInformation(hostname, ids.itemId, ids.shopId)
+          .getProductCurrentInformationFromOrigin(
+            hostname,
+            ids.itemId,
+            ids.shopId
+          )
           .then((product) => {
             setProduct(product);
           });
@@ -232,10 +236,7 @@ const App = () => {
 
   async function trackProduct(callback) {
     const productId = urlExtractor.extractTikiProductId(productLink);
-    const isChanged = await productService.saveProductHistories(
-      productId,
-      product
-    );
+    const isChanged = await productService.saveProduct(productId, product);
     if (isChanged) {
       setLastChangeDateTime(new Date());
     }

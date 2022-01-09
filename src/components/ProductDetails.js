@@ -15,7 +15,7 @@ const ProductDetails = (props) => {
 
   useEffect(() => {
     productService
-      .getProductHistory(props.matchParams.origin, props.matchParams.itemId)
+      .getProduct(props.matchParams.origin, props.matchParams.itemId)
       .then((product) => {
         setProduct(product);
       });

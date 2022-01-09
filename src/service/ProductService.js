@@ -5,7 +5,7 @@ class ProductService {
     );
   }
 
-  getProductInformation(origin, productId, shopId = "") {
+  getProductCurrentInformationFromOrigin(origin, productId, shopId = "") {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
       `http://localhost:3001/api/${origin}/product/current-info/${productId}/${shopId}`
@@ -19,7 +19,7 @@ class ProductService {
       });
   }
 
-  getProductHistory(origin, productId) {
+  getProduct(origin, productId) {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
       `http://localhost:3001/api/${origin}/product/history/${productId}`
@@ -33,7 +33,7 @@ class ProductService {
       });
   }
 
-  findLastTrackedProductHistories() {
+  findLastTrackedProduct() {
     return fetch("http://localhost:3001/api/product/latest/history")
       .then((res) => res.json())
       .then((product) => {
@@ -44,7 +44,7 @@ class ProductService {
       });
   }
 
-  saveProductHistories(productId, product) {
+  saveProduct(productId, product) {
     return fetch(`http://localhost:3001/api/product/${productId}`, {
       method: "POST",
       headers: {
