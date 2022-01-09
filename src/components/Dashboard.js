@@ -27,11 +27,22 @@ const Dashboard = (props) => {
   const chartDatasetBuilder = new ChartDatasetBuilder();
   const timeSpan = new TimeSpan();
 
-  const [selectedTimespan, setSelectedTimespan] = useState(
-    timeSpan.LAST_7_DAYS
+  const timeSpans = timeSpan.VALUES.map((timeSpanValue) => {
+    return { label: timeSpanValue.label, value: timeSpanValue.id };
+  });
+  const timeSpanMap = new Map(
+    timeSpan.VALUES.map((timeSpanValue) => [
+      timeSpanValue.id,
+      timeSpanValue.value,
+    ])
+  );
+
+  const [selectedTimespanId, setSelectedTimespanId] = useState(
+    timeSpan.LAST_7_DAYS.id
   );
 
   useEffect(() => {
+    const selectedTimespan = timeSpanMap.get(selectedTimespanId);
     const displayedPointOfTimeLabels = selectedTimespan
       .pointsOfTime()
       .map((date) =>
@@ -56,6 +67,7 @@ const Dashboard = (props) => {
   }, [props.lastChangeDateTime]);
 
   useEffect(() => {
+    const selectedTimespan = timeSpanMap.get(selectedTimespanId);
     const displayedPointOfTimeLabels = selectedTimespan
       .pointsOfTime()
       .map((date) =>
@@ -74,7 +86,7 @@ const Dashboard = (props) => {
         ),
       },
     });
-  }, [selectedTimespan]);
+  }, [selectedTimespanId]);
 
   return (
     <div className="grid">
@@ -82,10 +94,9 @@ const Dashboard = (props) => {
         <div className="card">
           <h5>{latestProduct.name}</h5>
           <Dropdown
-            options={timeSpan.VALUES}
-            optionLabel="label"
-            value={selectedTimespan}
-            onChange={(e) => setSelectedTimespan(e.value)}
+            options={timeSpans}
+            value={selectedTimespanId}
+            onChange={(e) => setSelectedTimespanId(e.value)}
           />
           <Chart type="line" data={productPriceHistoryChartModel.history} />
         </div>
