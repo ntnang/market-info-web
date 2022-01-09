@@ -8,11 +8,20 @@ import TimeSpan from "../constants/TimeSpan";
 const Dashboard = (props) => {
   const [latestProduct, setLatestProduct] = useState({
     name: "",
-    history: {
-      labels: [],
-      datasets: [],
-    },
+    imagesUrls: [],
+    origin: "",
+    sellers: [],
+    lastTrackedDate: null,
   });
+
+  const [productPriceHistoryChartModel, setProductPriceHistoryChartModel] =
+    useState({
+      name: "",
+      history: {
+        labels: [],
+        datasets: [],
+      },
+    });
 
   const productService = new ProductService();
   const chartDatasetBuilder = new ChartDatasetBuilder();
@@ -22,7 +31,7 @@ const Dashboard = (props) => {
     timeSpan.LAST_7_DAYS
   );
 
-  useEffect(async () => {
+  useEffect(() => {
     const displayedPointOfTimeLabels = selectedTimespan
       .pointsOfTime()
       .map((date) =>
@@ -31,19 +40,41 @@ const Dashboard = (props) => {
           selectedTimespan.displayTimeFormat
         ).format(date)
       );
-    const productHistories =
-      await productService.findLastTrackedProductHistories();
-    setLatestProduct({
-      name: productHistories.name,
+    productService.findLastTrackedProductHistories().then((product) => {
+      setLatestProduct(product);
+      setProductPriceHistoryChartModel({
+        name: product.name,
+        history: {
+          labels: displayedPointOfTimeLabels,
+          datasets: chartDatasetBuilder.buildChartDataSets(
+            product,
+            selectedTimespan
+          ),
+        },
+      });
+    });
+  }, [props.lastChangeDateTime]);
+
+  useEffect(() => {
+    const displayedPointOfTimeLabels = selectedTimespan
+      .pointsOfTime()
+      .map((date) =>
+        new Intl.DateTimeFormat(
+          "vi-VN",
+          selectedTimespan.displayTimeFormat
+        ).format(date)
+      );
+    setProductPriceHistoryChartModel({
+      name: latestProduct.name,
       history: {
         labels: displayedPointOfTimeLabels,
         datasets: chartDatasetBuilder.buildChartDataSets(
-          productHistories,
-          timeSpan.LAST_7_DAYS
+          latestProduct,
+          selectedTimespan
         ),
       },
     });
-  }, [props.lastChangeDateTime, selectedTimespan]);
+  }, [selectedTimespan]);
 
   return (
     <div className="grid">
@@ -56,7 +87,7 @@ const Dashboard = (props) => {
             value={selectedTimespan}
             onChange={(e) => setSelectedTimespan(e.value)}
           />
-          <Chart type="line" data={latestProduct.history} />
+          <Chart type="line" data={productPriceHistoryChartModel.history} />
         </div>
       </div>
     </div>
