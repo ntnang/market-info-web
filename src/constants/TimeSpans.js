@@ -5,10 +5,11 @@ class TimeSpans {
     label: "Today",
     unit: TimeUnits.HOUR,
     pointsOfTime: () => {
-      const date = new Date();
-      const hourOfDay = date.getHours();
+      const currentDate = new Date();
+      const hourOfDay = currentDate.getHours();
       return [...Array(hourOfDay)]
         .map((_, i) => {
+          const date = new Date();
           date.setHours(date.getHours() - i);
           return date;
         })
@@ -19,9 +20,9 @@ class TimeSpans {
     label: "Last 24 hours",
     unit: TimeUnits.HOUR,
     pointsOfTime: () => {
-      const date = new Date();
       return [...Array(24)]
         .map((_, i) => {
+          const date = new Date();
           date.setHours(date.getHours() - i);
           return date;
         })
@@ -32,10 +33,11 @@ class TimeSpans {
     label: "This week",
     unit: TimeUnits.DAY,
     pointsOfTime: () => {
-      const date = new Date();
-      const dayOfWeek = date.getDay();
+      const currentDate = new Date();
+      const dayOfWeek = currentDate.getDay();
       return [...Array(dayOfWeek)]
         .map((_, i) => {
+          const date = new Date();
           date.setDate(date.getDate() - i);
           return date;
         })
@@ -46,9 +48,9 @@ class TimeSpans {
     label: "Last 7 days",
     unit: TimeUnits.DAY,
     pointsOfTime: () => {
-      const date = new Date();
       return [...Array(7)]
         .map((_, i) => {
+          const date = new Date();
           date.setDate(date.getDate() - i);
           return date;
         })
@@ -59,10 +61,11 @@ class TimeSpans {
     label: "This month",
     unit: TimeUnits.DAY,
     pointsOfTime: () => {
-      const date = new Date();
-      const dayOfMonth = date.getDate();
+      const currentDate = new Date();
+      const dayOfMonth = currentDate.getDate();
       return [...Array(dayOfMonth)]
         .map((_, i) => {
+          const date = new Date();
           date.setDate(date.getDate() - i);
           return date;
         })
@@ -73,9 +76,9 @@ class TimeSpans {
     label: "Last 30 days",
     unit: TimeUnits.DAY,
     pointsOfTime: () => {
-      const date = new Date();
       return [...Array(30)]
         .map((_, i) => {
+          const date = new Date();
           date.setDate(date.getDate() - i);
           return date;
         })
@@ -86,10 +89,11 @@ class TimeSpans {
     label: "This year",
     unit: TimeUnits.MONTH,
     pointsOfTime: () => {
-      const date = new Date();
-      const monthOfYear = date.getMonth();
+      const currentDate = new Date();
+      const monthOfYear = currentDate.getMonth();
       return [...Array(monthOfYear)]
         .map((_, i) => {
+          const date = new Date();
           date.setMonth(date.getMonth() - i);
           return date;
         })
@@ -100,9 +104,9 @@ class TimeSpans {
     label: "Last 12 months",
     unit: TimeUnits.MONTH,
     pointsOfTime: () => {
-      const date = new Date();
       return [...Array(12)]
         .map((_, i) => {
+          const date = new Date();
           date.setMonth(date.getMonth - i);
           return date;
         })

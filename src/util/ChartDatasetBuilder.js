@@ -14,13 +14,14 @@ class ChartDatasetBuilder {
 
   buildChartDataset(sellerHistory, timeSpan) {
     const dataset = {};
+    const pointsOfTime = timeSpan.pointsOfTime();
     const lastSevenDaysHistories = sellerHistory.priceHistories.filter(
-      (history) => Date.parse(history.trackedDate) > timeSpan.pointsOfTime()[0]
+      (history) => Date.parse(history.trackedDate) > pointsOfTime[0]
     );
     dataset.data = this.generateChartData(
       sellerHistory.priceHistories,
       lastSevenDaysHistories,
-      timeSpan.pointsOfTime()
+      pointsOfTime
     );
     dataset.label = sellerHistory.name;
     dataset.tension = 0.4;

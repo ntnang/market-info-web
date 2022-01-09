@@ -20,7 +20,6 @@ const Dashboard = (props) => {
   const weekDayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   useEffect(async () => {
-    console.log(timeSpans.LAST_7_DAYS.pointsOfTime());
     const lastSevenWeekDayNames = timeSpans.LAST_7_DAYS.pointsOfTime().map(
       (date) => weekDayNames[date.getDay()]
     );
