@@ -1,5 +1,3 @@
-import TimeUnit from "../constants/TimeUnit";
-
 class ChartDatasetBuilder {
   buildChartDataSets(product, timeSpan) {
     const datasets = [];
@@ -14,36 +12,32 @@ class ChartDatasetBuilder {
 
   buildChartDataset(seller, timeSpan) {
     const dataset = {};
-    const pointsOfTime = timeSpan.pointsOfTime();
-    const priceHistoryEntriesInTimePeriod = seller.priceHistories.filter(
-      (history) => Date.parse(history.trackedDate) > pointsOfTime[0]
-    );
-    dataset.data = this.generateChartData(
-      seller.priceHistories,
-      priceHistoryEntriesInTimePeriod,
-      pointsOfTime
-    );
+    dataset.data = this.generateChartData(seller.priceHistories, timeSpan);
     dataset.label = seller.name;
     dataset.tension = 0.4;
     dataset.fill = false;
     return dataset;
   }
 
-  generateChartData(
-    allHistoryEntries,
-    inChartRangeHistoryEntries,
-    pointsOfTime
-  ) {
+  generateChartData(allHistoryEntries, timeSpan) {
     const filledHistoryEntries = [];
+    const pointsOfTime = timeSpan.pointsOfTime();
+    const historyEntriesInTimePeriod = allHistoryEntries.filter(
+      (history) => Date.parse(history.trackedDate) >= pointsOfTime[0]
+    );
     let historyEntryToBeFilled = this.getBoundaryStartValue(
       allHistoryEntries,
-      inChartRangeHistoryEntries
+      historyEntriesInTimePeriod
     );
     pointsOfTime.forEach((pointOfTime) => {
-      const historyEntriesInCurrentPeriod = inChartRangeHistoryEntries.filter(
+      const historyEntriesInCurrentPeriod = historyEntriesInTimePeriod.filter(
         (historyEntry) => {
           const trackedDate = new Date(historyEntry.trackedDate);
-          return this.isDateInTimePeriod(trackedDate, pointOfTime);
+          return this.isDateInTimePeriod(
+            trackedDate,
+            pointOfTime,
+            timeSpan.unit
+          );
         }
       );
       if (historyEntriesInCurrentPeriod.length != 0) {
@@ -66,27 +60,27 @@ class ChartDatasetBuilder {
     return outChartRangeHistories[outChartRangeHistories.length - 1];
   }
 
-  isDateInTimePeriod(date, timePeriod) {
-    switch (timePeriod.unit) {
-      case TimeUnit.YEAR:
-        return date.getFullYear() === timePeriod.getFullYear();
-      case TimeUnit.MONTH:
+  isDateInTimePeriod(date, pointOfTime, timeUnit) {
+    switch (timeUnit) {
+      case "YEAR":
+        return date.getFullYear() === pointOfTime.getFullYear();
+      case "MONTH":
         return (
-          date.getFullYear() === timePeriod.getFullYear() &&
-          date.getMonth() === timePeriod.getMonth()
+          date.getFullYear() === pointOfTime.getFullYear() &&
+          date.getMonth() === pointOfTime.getMonth()
         );
-      case TimeUnit.DAY:
+      case "DAY":
         return (
-          date.getFullYear() === timePeriod.getFullYear() &&
-          date.getMonth() === timePeriod.getMonth() &&
-          date.getDate() === timePeriod.getDate()
+          date.getFullYear() === pointOfTime.getFullYear() &&
+          date.getMonth() === pointOfTime.getMonth() &&
+          date.getDate() === pointOfTime.getDate()
         );
-      case TimeUnit.HOUR:
+      case "HOUR":
         return (
-          date.getFullYear() === timePeriod.getFullYear() &&
-          date.getMonth() === timePeriod.getMonth() &&
-          date.getDate() === timePeriod.getDate() &&
-          date.getHours() === timePeriod.getHours()
+          date.getFullYear() === pointOfTime.getFullYear() &&
+          date.getMonth() === pointOfTime.getMonth() &&
+          date.getDate() === pointOfTime.getDate() &&
+          date.getHours() === pointOfTime.getHours()
         );
     }
   }

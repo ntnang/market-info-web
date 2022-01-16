@@ -1,11 +1,14 @@
-import TimeUnit from "./TimeUnit";
-
 class TimeSpan {
+  HOUR = "HOUR";
+  DAY = "DAY";
+  MONTH = "MONTH";
+  YEAR = "YEAR";
+
   TODAY = {
     id: "TODAY",
     label: "Today",
     value: {
-      unit: TimeUnit.HOUR,
+      unit: this.HOUR,
       displayTimeFormat: { timeStyle: "short" },
       pointsOfTime: () => {
         const currentDate = new Date();
@@ -24,7 +27,7 @@ class TimeSpan {
     id: "LAST_24_HOURS",
     label: "Last 24 hours",
     value: {
-      unit: TimeUnit.HOUR,
+      unit: this.HOUR,
       displayTimeFormat: { timeStyle: "short" },
       pointsOfTime: () => {
         return [...Array(24)]
@@ -41,7 +44,7 @@ class TimeSpan {
     id: "THIS_WEEK",
     label: "This week",
     value: {
-      unit: TimeUnit.DAY,
+      unit: this.DAY,
       displayTimeFormat: { weekday: "long" },
       pointsOfTime: () => {
         const currentDate = new Date();
@@ -60,7 +63,7 @@ class TimeSpan {
     id: "LAST_7_DAYS",
     label: "Last 7 days",
     value: {
-      unit: TimeUnit.DAY,
+      unit: this.DAY,
       displayTimeFormat: { weekday: "short" },
       pointsOfTime: () => {
         return [...Array(7)]
@@ -77,7 +80,7 @@ class TimeSpan {
     id: "THIS_MONTH",
     label: "This month",
     value: {
-      unit: TimeUnit.DAY,
+      unit: this.DAY,
       displayTimeFormat: { day: "numeric" },
       pointsOfTime: () => {
         const currentDate = new Date();
@@ -96,7 +99,7 @@ class TimeSpan {
     id: "LAST_30_DAYS",
     label: "Last 30 days",
     value: {
-      unit: TimeUnit.DAY,
+      unit: this.DAY,
       displayTimeFormat: { dateStyle: "short" },
       pointsOfTime: () => {
         return [...Array(30)]
@@ -113,7 +116,7 @@ class TimeSpan {
     id: "THIS_YEAR",
     label: "This year",
     value: {
-      unit: TimeUnit.MONTH,
+      unit: this.MONTH,
       displayTimeFormat: { month: "short" },
       pointsOfTime: () => {
         const currentDate = new Date();
@@ -132,7 +135,7 @@ class TimeSpan {
     id: "LAST_12_MONTHS",
     label: "Last 12 months",
     value: {
-      unit: TimeUnit.MONTH,
+      unit: this.MONTH,
       displayTimeFormat: { month: "short", year: "numeric" },
       pointsOfTime: () => {
         return [...Array(12)]
