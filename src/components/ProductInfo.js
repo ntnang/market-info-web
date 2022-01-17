@@ -54,16 +54,19 @@ const ProductInfo = (props) => {
   return (
     <React.Fragment>
       <div className="flex">
-        <img
-          src={`https://${props.product.origin}/favicon.ico`}
-          title={props.product.origin}
-          alt={props.product.origin}
-          onError={(e) =>
-            (e.target.src =
-              "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
-          }
-          alt={props.product.origin}
-        />
+        <div>
+          <img
+            src={`https://${props.product.origin}/favicon.ico`}
+            title={props.product.origin}
+            alt={props.product.origin}
+            onError={(e) =>
+              (e.target.src =
+                "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+            }
+            alt={props.product.origin}
+          />
+        </div>
+
         <div className="product-name text-aside-logo">{props.product.name}</div>
       </div>
       <Carousel
