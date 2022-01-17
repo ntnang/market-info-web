@@ -1,3 +1,4 @@
+import ColorThief from "colorthief/dist/color-thief.mjs";
 class ChartDatasetBuilder {
   buildChartDataSets(product, timeSpan) {
     const datasets = [];
@@ -16,6 +17,22 @@ class ChartDatasetBuilder {
     dataset.label = seller.name;
     dataset.tension = 0.4;
     dataset.fill = false;
+
+    const googleProxyURL =
+      "https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=";
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = googleProxyURL + encodeURIComponent(seller.logoUrl);
+
+    const colorThief = new ColorThief();
+    if (img.complete) {
+      colorThief.getColor(img);
+    } else {
+      img.addEventListener("load", () => {
+        dataset.borderColor = `rgb(${colorThief.getColor(img).join()})`;
+      });
+    }
+
     return dataset;
   }
 
