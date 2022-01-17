@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ProductService from "../service/ProductService";
 import ProductInfo from "./ProductInfo";
+import ProductPriceChart from "../components/ProductPriceChart";
+import ProductService from "../service/ProductService";
 
 const ProductDetails = (props) => {
   const [product, setProduct] = useState({
@@ -22,13 +23,18 @@ const ProductDetails = (props) => {
   }, []);
 
   return (
-    <div className="card">
-      <ProductInfo
-        product={product}
-        currencyFormatter={props.currencyFormatter}
-        dateTimeFormatter={props.dateTimeFormatter}
-      />
-    </div>
+    <React.Fragment>
+      <div className="card">
+        <ProductInfo
+          product={product}
+          currencyFormatter={props.currencyFormatter}
+          dateTimeFormatter={props.dateTimeFormatter}
+        />
+      </div>
+      <div className="card">
+        <ProductPriceChart product={product} />
+      </div>
+    </React.Fragment>
   );
 };
 
