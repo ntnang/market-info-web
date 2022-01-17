@@ -53,28 +53,6 @@ const ProductPriceChart = (props) => {
     });
   }, [props.product, selectedTimespanId]);
 
-  //   useEffect(() => {
-  //     const selectedTimespan = timeSpanMap.get(selectedTimespanId);
-  //     const displayedPointOfTimeLabels = selectedTimespan
-  //       .pointsOfTime()
-  //       .map((date) =>
-  //         new Intl.DateTimeFormat(
-  //           "vi-VN",
-  //           selectedTimespan.displayTimeFormat
-  //         ).format(date)
-  //       );
-  //     setProductPriceHistoryChartModel({
-  //       name: props.product.name,
-  //       history: {
-  //         labels: displayedPointOfTimeLabels,
-  //         datasets: chartDatasetBuilder.buildChartDataSets(
-  //           props.product,
-  //           selectedTimespan
-  //         ),
-  //       },
-  //     });
-  //   }, [selectedTimespanId]);
-
   return (
     <React.Fragment>
       <Dropdown
