@@ -27,7 +27,7 @@ const ProductInfo = (props) => {
     return (
       <div className="flex">
         <img
-          src={data.logoUrl}
+          src={data.logo.url}
           title={data.name}
           alt={data.name}
           width={32}

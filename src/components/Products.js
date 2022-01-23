@@ -55,7 +55,7 @@ const Products = (props) => {
           <div className="product-item-bottom">
             <div className="product-seller flex">
               <img
-                src={firstSeller.logoUrl}
+                src={firstSeller.logo.url}
                 title={firstSeller.name}
                 alt={firstSeller.name}
                 width={32}
