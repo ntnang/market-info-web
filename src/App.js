@@ -52,8 +52,12 @@ const App = () => {
     useState(false);
   const [product, setProduct] = useState({
     name: "",
-    imagesUrls: [],
+    thumbnailUrl: "",
     origin: "",
+    minPrice: 0,
+    maxPrice: 0,
+    options: [],
+    variants: [],
     sellers: [],
     lastTrackedDate: null,
   });
@@ -172,19 +176,21 @@ const App = () => {
   function onProductLinkInputKeyDown(event, callback) {
     if (event.key === "Enter") {
       if (productLink) {
-        getProductInformation();
+        getProductInformation().then(() => {
+          setIsTopBarVisible(false);
+          callback();
+        });
       }
-      setIsTopBarVisible(false);
-      callback();
     }
   }
 
   function onSearchButtonClicked(callback) {
     if (productLink) {
-      getProductInformation();
+      getProductInformation().then(() => {
+        setIsTopBarVisible(false);
+        callback();
+      });
     }
-    setIsTopBarVisible(false);
-    callback();
   }
 
   const showProductInfoDialog = () => {
@@ -210,15 +216,14 @@ const App = () => {
     switch (hostname) {
       case productOrigins.TIKI_VN:
         const productId = urlExtractor.extractTikiProductId(productLink);
-        productService
+        return productService
           .getProductCurrentInformationFromOrigin(hostname, productId)
           .then((product) => {
             setProduct(product);
           });
-        break;
       case productOrigins.SHOPEE_VN:
         const ids = urlExtractor.extractShopeeProductIds(productLink);
-        productService
+        return productService
           .getProductCurrentInformationFromOrigin(
             hostname,
             ids.itemId,
@@ -227,10 +232,10 @@ const App = () => {
           .then((product) => {
             setProduct(product);
           });
-        break;
       default:
-        alert("Not supported!");
-        break;
+        return new Promise((resolve, _) => {
+          resolve("Not supported!");
+        });
     }
   };
 

@@ -1,11 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel } from "primereact/carousel";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Dropdown } from "primereact/dropdown";
 import "../scss/product-info.scss";
 
 const ProductInfo = (props) => {
   const [expandedRows, setExpandedRows] = useState(null);
+  const [selectedVariant, setSelectVariant] = useState(
+    props.product.variants.keys().next().value
+  );
+  const [variantImagesUrls, setVariantImagesUrls] = useState([]);
+  const [variantSellers, setVariantSellers] = useState([]);
+
+  useEffect(() => {
+    setVariantImagesUrls(
+      props.product.variants.get(selectedVariant).imagesUrls
+    );
+    setVariantSellers(
+      Array.from(
+        props.product.variants.get(selectedVariant).sellers,
+        ([key, value]) => ({
+          key,
+          value,
+        })
+      )
+    );
+  }, [props.product]);
+
+  const variants = Array.from(props.product.variants.entries()).map(
+    ([key, value]) => ({
+      label: value.name,
+      value: key,
+    })
+  );
 
   const getImageTemplateForCarousel = (imgUrl) => {
     return (
@@ -24,12 +52,13 @@ const ProductInfo = (props) => {
   };
 
   const sellerTemplate = (data) => {
+    const seller = props.product.sellers.get(data.key);
     return (
       <div className="flex">
         <img
-          src={data.logoUrl}
-          title={data.name}
-          alt={data.name}
+          src={seller.logoUrl}
+          title={seller.name}
+          alt={seller.name}
           width={32}
           height={32}
         />
@@ -40,7 +69,7 @@ const ProductInfo = (props) => {
 
   const rowExpansionTemplate = (data) => {
     return (
-      <DataTable value={data.priceHistories}>
+      <DataTable value={data.value.priceHistories}>
         <Column field="price" header="Price" body={priceTemplate} />
         <Column
           field="trackedDate"
@@ -63,18 +92,22 @@ const ProductInfo = (props) => {
               (e.target.src =
                 "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
             }
-            alt={props.product.origin}
           />
         </div>
 
         <div className="product-name text-aside-logo">{props.product.name}</div>
       </div>
+      <Dropdown
+        options={variants}
+        value={selectedVariant}
+        onChange={(e) => setSelectVariant(e.value)}
+      />
       <Carousel
-        value={props.product.imagesUrls}
+        value={variantImagesUrls}
         itemTemplate={getImageTemplateForCarousel}
       />
       <DataTable
-        value={Array.from(props.product.sellers, ([_, value]) => value)}
+        value={variantSellers}
         expandedRows={expandedRows}
         onRowToggle={(e) => setExpandedRows(e.data)}
         rowExpansionTemplate={rowExpansionTemplate}

@@ -34,7 +34,6 @@ const Products = (props) => {
                 (e.target.src =
                   "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
               }
-              alt={product.origin}
             />
           </div>
           <div className="product-item-content">

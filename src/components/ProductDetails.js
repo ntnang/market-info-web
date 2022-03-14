@@ -6,8 +6,12 @@ import ProductService from "../service/ProductService";
 const ProductDetails = (props) => {
   const [product, setProduct] = useState({
     name: "",
-    imagesUrls: [],
+    thumbnailUrl: "",
     origin: "",
+    minPrice: 0,
+    maxPrice: 0,
+    options: [],
+    variants: [],
     sellers: [],
     lastTrackedDate: null,
   });

@@ -12,6 +12,9 @@ class ProductService {
     )
       .then((res) => res.json())
       .then((product) => {
+        if (Array.isArray(product.variants)) {
+          product.variants = new Map(product.variants);
+        }
         if (Array.isArray(product.sellers)) {
           product.sellers = new Map(product.sellers);
         }
@@ -24,6 +27,9 @@ class ProductService {
     return fetch(`http://localhost:3001/api/${origin}/product/${productId}`)
       .then((res) => res.json())
       .then((product) => {
+        if (Array.isArray(product.variants)) {
+          product.variants = new Map(product.variants);
+        }
         if (Array.isArray(product.sellers)) {
           product.sellers = new Map(product.sellers);
         }
@@ -35,6 +41,9 @@ class ProductService {
     return fetch("http://localhost:3001/api/product/latest")
       .then((res) => res.json())
       .then((product) => {
+        if (Array.isArray(product.variants)) {
+          product.variants = new Map(product.variants);
+        }
         if (Array.isArray(product.sellers)) {
           product.sellers = new Map(product.sellers);
         }
