@@ -20,13 +20,17 @@ const ProductInfo = (props) => {
     setVariantSellers(
       Array.from(
         props.product.variants.get(selectedVariant).sellers,
-        ([key, value]) => ({
-          key,
-          value,
-        })
+        ([key, value]) => {
+          const seller = props.product.sellers.get(key);
+          return {
+            name: seller.name,
+            logoUrl: seller.logoUrl,
+            priceHistories: value.priceHistories,
+          };
+        }
       )
     );
-  }, [props.product]);
+  }, [selectedVariant]);
 
   const variants = Array.from(props.product.variants.entries()).map(
     ([key, value]) => ({
@@ -48,11 +52,12 @@ const ProductInfo = (props) => {
   };
 
   const dateTimeTemplate = (data) => {
-    return props.dateTimeFormatter.format(Date.parse(data.trackedDate));
+    return data.trackedDate
+      ? props.dateTimeFormatter.format(Date.parse(data.trackedDate))
+      : "";
   };
 
-  const sellerTemplate = (data) => {
-    const seller = props.product.sellers.get(data.key);
+  const sellerTemplate = (seller) => {
     return (
       <div className="flex">
         <img
@@ -62,14 +67,14 @@ const ProductInfo = (props) => {
           width={32}
           height={32}
         />
-        <div className="text-aside-logo">{data.name}</div>
+        <div className="text-aside-logo">{seller.name}</div>
       </div>
     );
   };
 
   const rowExpansionTemplate = (data) => {
     return (
-      <DataTable value={data.value.priceHistories}>
+      <DataTable value={data.priceHistories}>
         <Column field="price" header="Price" body={priceTemplate} />
         <Column
           field="trackedDate"
