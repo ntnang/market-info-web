@@ -7,37 +7,35 @@ import "../scss/product-info.scss";
 
 const ProductInfo = (props) => {
   const [expandedRows, setExpandedRows] = useState(null);
-  const [selectedVariant, setSelectVariant] = useState(
-    props.product.variants.keys().next().value
+  const [selectedVariantId, setSelectVariantId] = useState(
+    props.product.variants[0].id
   );
   const [variantImagesUrls, setVariantImagesUrls] = useState([]);
   const [variantSellers, setVariantSellers] = useState([]);
 
   useEffect(() => {
-    setVariantImagesUrls(
-      props.product.variants.get(selectedVariant).imagesUrls
+    const selectedVariant = props.product.variants.find(
+      (variant) => variant.id === selectedVariantId
     );
+    setVariantImagesUrls(selectedVariant.imagesUrls);
     setVariantSellers(
-      Array.from(
-        props.product.variants.get(selectedVariant).sellers,
-        ([key, value]) => {
-          const seller = props.product.sellers.get(key);
-          return {
-            name: seller.name,
-            logoUrl: seller.logoUrl,
-            priceHistories: value.priceHistories,
-          };
-        }
-      )
+      selectedVariant.sellers.map((variantSeller) => {
+        const productSeller = props.product.sellers.find(
+          (seller) => seller.id === variantSeller.id
+        );
+        return {
+          name: productSeller.name,
+          logoUrl: productSeller.logoUrl,
+          priceHistories: variantSeller.priceHistories,
+        };
+      })
     );
-  }, [selectedVariant]);
+  }, [selectedVariantId]);
 
-  const variants = Array.from(props.product.variants.entries()).map(
-    ([key, value]) => ({
-      label: value.name,
-      value: key,
-    })
-  );
+  const variants = props.product.variants.map((variant) => ({
+    label: variant.name,
+    value: variant.id,
+  }));
 
   const getImageTemplateForCarousel = (imgUrl) => {
     return (
@@ -104,8 +102,8 @@ const ProductInfo = (props) => {
       </div>
       <Dropdown
         options={variants}
-        value={selectedVariant}
-        onChange={(e) => setSelectVariant(e.value)}
+        value={selectedVariantId}
+        onChange={(e) => setSelectVariantId(e.value)}
       />
       <Carousel
         value={variantImagesUrls}

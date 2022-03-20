@@ -9,46 +9,20 @@ class ProductService {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
       `http://localhost:3001/api/${origin}/product/current-info/${productId}/${shopId}`
-    )
-      .then((res) => res.json())
-      .then((product) => {
-        if (Array.isArray(product.variants)) {
-          product.variants = new Map(product.variants);
-        }
-        if (Array.isArray(product.sellers)) {
-          product.sellers = new Map(product.sellers);
-        }
-        return product;
-      });
+    ).then((res) => res.json());
   }
 
   getProduct(origin, productId) {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
-    return fetch(`http://localhost:3001/api/${origin}/product/${productId}`)
-      .then((res) => res.json())
-      .then((product) => {
-        if (Array.isArray(product.variants)) {
-          product.variants = new Map(product.variants);
-        }
-        if (Array.isArray(product.sellers)) {
-          product.sellers = new Map(product.sellers);
-        }
-        return product;
-      });
+    return fetch(
+      `http://localhost:3001/api/${origin}/product/${productId}`
+    ).then((res) => res.json());
   }
 
   findLastTrackedProduct() {
-    return fetch("http://localhost:3001/api/product/latest")
-      .then((res) => res.json())
-      .then((product) => {
-        if (Array.isArray(product.variants)) {
-          product.variants = new Map(product.variants);
-        }
-        if (Array.isArray(product.sellers)) {
-          product.sellers = new Map(product.sellers);
-        }
-        return product;
-      });
+    return fetch("http://localhost:3001/api/product/latest").then((res) =>
+      res.json()
+    );
   }
 
   saveProduct(productId, product) {

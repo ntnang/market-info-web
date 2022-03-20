@@ -50,17 +50,7 @@ const App = () => {
   const [productLink, setProductLink] = useState();
   const [isProductInfoDialogVisible, setIsProductInfoDialogVisible] =
     useState(false);
-  const [product, setProduct] = useState({
-    name: "",
-    thumbnailUrl: "",
-    origin: "",
-    minPrice: 0,
-    maxPrice: 0,
-    options: [],
-    variants: [],
-    sellers: [],
-    lastTrackedDate: null,
-  });
+  const [product, setProduct] = useState({});
 
   const productService = new ProductService();
   const urlExtractor = new UrlExtractor();
