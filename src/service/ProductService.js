@@ -1,28 +1,54 @@
 class ProductService {
   getAllProducts() {
-    return fetch("http://localhost:3001/api/products").then((res) =>
-      res.json()
-    );
+    return fetch("http://localhost:3001/api/products").then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      res.text().then((resText) => {
+        throw new Error(`Cannot get products: ${resText}`);
+      });
+    });
   }
 
   getProductCurrentInformationFromOrigin(origin, productId, shopId = "") {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
       `http://localhost:3001/api/${origin}/product/current-info/${productId}/${shopId}`
-    ).then((res) => res.json());
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      res.text().then((resText) => {
+        throw new Error(
+          `Cannot get product ${productId} of seller ${shopId} from origin: ${resText}`
+        );
+      });
+    });
   }
 
   getProduct(origin, productId) {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
       `http://localhost:3001/api/${origin}/product/${productId}`
-    ).then((res) => res.json());
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      res.text().then((resText) => {
+        throw new Error(`Cannot get product ${productId}: ${resText}`);
+      });
+    });
   }
 
-  findLastTrackedProduct() {
-    return fetch("http://localhost:3001/api/product/latest").then((res) =>
-      res.json()
-    );
+  getLastTrackedProduct() {
+    return fetch("http://localhost:3001/api/product/latest").then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      res.text().then((resText) => {
+        throw new Error(`Cannot get the last tracked product: ${resText}`);
+      });
+    });
   }
 
   saveProduct(productId, product) {

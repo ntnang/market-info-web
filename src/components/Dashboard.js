@@ -3,20 +3,31 @@ import ProductPriceChart from "../components/ProductPriceChart";
 import ProductService from "../service/ProductService";
 
 const Dashboard = (props) => {
-  const [latestProduct, setLatestProduct] = useState({
-    name: "",
-    imagesUrls: [],
-    origin: "",
-    sellers: [],
-    lastTrackedDate: null,
-  });
+  const [latestProduct, setLatestProduct] = useState({});
 
   const productService = new ProductService();
 
   useEffect(() => {
-    productService.findLastTrackedProduct().then((product) => {
-      setLatestProduct(product);
-    });
+    productService
+      .getLastTrackedProduct()
+      .then((product) => {
+        setLatestProduct(product);
+      })
+      .catch((error) => {
+        setLatestProduct({
+          name: "",
+          thumbnailUrl: "",
+          imagesUrls: [],
+          origin: "",
+          minPrice: 0,
+          maxPrice: 0,
+          options: [],
+          variants: [],
+          sellers: [],
+          lastTrackedDate: null,
+        });
+        console.error(error);
+      });
   }, [props.lastChangeDateTime]);
 
   return (
