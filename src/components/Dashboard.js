@@ -3,7 +3,18 @@ import ProductPriceChart from "../components/ProductPriceChart";
 import ProductService from "../service/ProductService";
 
 const Dashboard = (props) => {
-  const [latestProduct, setLatestProduct] = useState({});
+  const [latestProduct, setLatestProduct] = useState({
+    name: "",
+    thumbnailUrl: "",
+    imagesUrls: [],
+    origin: "",
+    minPrice: 0,
+    maxPrice: 0,
+    options: [],
+    variants: [],
+    sellers: [],
+    lastTrackedDate: null,
+  });
 
   const productService = new ProductService();
 
@@ -14,18 +25,6 @@ const Dashboard = (props) => {
         setLatestProduct(product);
       })
       .catch((error) => {
-        setLatestProduct({
-          name: "",
-          thumbnailUrl: "",
-          imagesUrls: [],
-          origin: "",
-          minPrice: 0,
-          maxPrice: 0,
-          options: [],
-          variants: [],
-          sellers: [],
-          lastTrackedDate: null,
-        });
         console.error(error);
       });
   }, [props.lastChangeDateTime]);
