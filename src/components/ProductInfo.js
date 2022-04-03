@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Carousel } from "primereact/carousel";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Dropdown } from "primereact/dropdown";
+import { SelectButton } from "primereact/selectbutton";
 import "../scss/product-info.scss";
 
 const ProductInfo = (props) => {
@@ -100,7 +100,7 @@ const ProductInfo = (props) => {
 
         <div className="product-name text-aside-logo">{props.product.name}</div>
       </div>
-      <Dropdown
+      <SelectButton
         options={variants}
         value={selectedVariantId}
         onChange={(e) => setSelectVariantId(e.value)}

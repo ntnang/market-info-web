@@ -20,11 +20,12 @@ class ChartDatasetBuilder {
     "#3399ff",
   ];
 
-  buildChartDataSets(product, timeSpan) {
+  buildChartDataSets(variant, sellersMetadata, timeSpan) {
     const datasets = [];
-    Array.from(product.sellers.values()).forEach((seller, index) => {
+    variant.sellers.forEach((seller, index) => {
       const dataset = this.buildChartDataset(
         seller,
+        sellersMetadata,
         timeSpan,
         this.chartDatasetHexColors[index % this.chartDatasetHexColors.length]
       );
@@ -35,10 +36,12 @@ class ChartDatasetBuilder {
     return datasets;
   }
 
-  buildChartDataset(seller, timeSpan, color) {
+  buildChartDataset(seller, sellersMetadata, timeSpan, color) {
     const dataset = {};
     dataset.data = this.generateChartData(seller.priceHistories, timeSpan);
-    dataset.label = seller.name;
+    dataset.label = sellersMetadata.find(
+      (sellerMetadata) => sellerMetadata.id === seller.id
+    ).name;
     dataset.tension = 0.4;
     dataset.fill = false;
     dataset.borderColor = color;

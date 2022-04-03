@@ -55,7 +55,10 @@ const ProductPriceChart = (props) => {
       history: {
         labels: displayedPointOfTimeLabels,
         datasets: chartDatasetBuilder.buildChartDataSets(
-          props.product,
+          props.product.variants.find(
+            (variant) => variant.id === selectedVariantId
+          ),
+          props.sellers,
           selectedTimespan
         ),
       },
@@ -88,7 +91,7 @@ const ProductPriceChart = (props) => {
             value={currentOption.value}
             onChange={(e) => {
               currentOption.value = e.value;
-              findMatchingVariant();
+              setSelectedVariantId(findMatchingVariant().id);
             }}
           />
         );
