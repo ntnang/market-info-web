@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
-import { Dropdown } from "primereact/dropdown";
+import { SelectButton } from "primereact/selectbutton";
 import ChartDatasetBuilder from "../util/ChartDatasetBuilder";
 import TimeSpan from "../constants/TimeSpan";
+import LodashLang from "lodash/lang";
 
 const ProductPriceChart = (props) => {
   const [productPriceHistoryChartModel, setProductPriceHistoryChartModel] =
@@ -14,6 +15,14 @@ const ProductPriceChart = (props) => {
       },
     });
 
+  const [selectedVariantId, setSelectedVariantId] = useState(
+    props.product.variants[0].id
+  );
+
+  const selectedOptions = props.product.options.map((option) => ({
+    name: option.name,
+    value: option.values[0],
+  }));
   const chartDatasetBuilder = new ChartDatasetBuilder();
   const timeSpan = new TimeSpan();
 
@@ -51,15 +60,39 @@ const ProductPriceChart = (props) => {
         ),
       },
     });
-  }, [props.product, selectedTimespanId]);
+  }, [props.product, selectedTimespanId, selectedVariantId]);
+
+  const findMatchingVariant = () => {
+    return props.product.variants.find((variant) =>
+      LodashLang.isEqual(variant.configurations, selectedOptions)
+    );
+  };
 
   return (
     <React.Fragment>
-      <Dropdown
+      <SelectButton
         options={timeSpans}
         value={selectedTimespanId}
         onChange={(e) => setSelectedTimespanId(e.value)}
       />
+      {props.product.options.map((option) => {
+        const currentOption = selectedOptions.find(
+          (selectedOption) => selectedOption.name === option.name
+        );
+        return (
+          <SelectButton
+            options={option.values.map((optionValue) => ({
+              label: optionValue,
+              value: optionValue,
+            }))}
+            value={currentOption.value}
+            onChange={(e) => {
+              currentOption.value = e.value;
+              findMatchingVariant();
+            }}
+          />
+        );
+      })}
       <Chart type="line" data={productPriceHistoryChartModel.history} />
     </React.Fragment>
   );
