@@ -16,7 +16,7 @@ const ProductPriceChart = (props) => {
     });
 
   const [selectedVariantId, setSelectedVariantId] = useState(
-    props.product.variants[0].id
+    props.product?.variants[0]?.id
   );
 
   const selectedOptions = props.product.options.map((option) => ({
@@ -41,6 +41,9 @@ const ProductPriceChart = (props) => {
   );
 
   useEffect(() => {
+    if (props.product?.variants) {
+      return;
+    }
     const selectedTimespan = timeSpanMap.get(selectedTimespanId);
     const displayedPointOfTimeLabels = selectedTimespan
       .pointsOfTime()

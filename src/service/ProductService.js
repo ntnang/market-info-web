@@ -4,9 +4,7 @@ class ProductService {
       if (res.ok) {
         return res.json();
       }
-      res.text().then((resText) => {
-        throw new Error(`Cannot get products: ${resText}`);
-      });
+      throw new Error(`Cannot get products`);
     });
   }
 
@@ -18,11 +16,9 @@ class ProductService {
       if (res.ok) {
         return res.json();
       }
-      res.text().then((resText) => {
-        throw new Error(
-          `Cannot get product ${productId} of seller ${shopId} from origin: ${resText}`
-        );
-      });
+      throw new Error(
+        `Cannot get product ${productId} of seller ${shopId} from origin`
+      );
     });
   }
 
@@ -34,9 +30,7 @@ class ProductService {
       if (res.ok) {
         return res.json();
       }
-      res.text().then((resText) => {
-        throw new Error(`Cannot get product ${productId}: ${resText}`);
-      });
+      throw new Error(`Cannot get product ${productId}`);
     });
   }
 
@@ -45,9 +39,7 @@ class ProductService {
       if (res.ok) {
         return res.json();
       }
-      res.text().then((resText) => {
-        throw new Error(`Cannot get the last tracked product: ${resText}`);
-      });
+      throw new Error("Cannot get the last tracked product");
     });
   }
 
