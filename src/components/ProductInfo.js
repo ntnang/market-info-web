@@ -4,18 +4,31 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { SelectButton } from "primereact/selectbutton";
 import "../scss/product-info.scss";
+import LodashLang from "lodash/lang";
 
 const ProductInfo = (props) => {
   const [expandedRows, setExpandedRows] = useState(null);
-  const [selectedVariantId, setSelectVariantId] = useState(
+  const [selectedVariantId, setSelectedVariantId] = useState(
     props.product.variants[0].id
   );
   const [variantImagesUrls, setVariantImagesUrls] = useState([]);
   const [variantSellers, setVariantSellers] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(
+    props.product.options.map((option) => ({
+      name: option.name,
+      value: option.values[0],
+    }))
+  );
 
   useEffect(() => {
     const selectedVariant = props.product.variants.find(
       (variant) => variant.id === selectedVariantId
+    );
+    setSelectedOptions(
+      selectedVariant.configurations.map((config) => ({
+        name: config.option,
+        value: config.value,
+      }))
     );
     setVariantImagesUrls(selectedVariant.imagesUrls);
     setVariantSellers(
@@ -32,10 +45,17 @@ const ProductInfo = (props) => {
     );
   }, [selectedVariantId]);
 
-  const variants = props.product.variants.map((variant) => ({
-    label: variant.name,
-    value: variant.id,
-  }));
+  const findMatchingVariant = () => {
+    return props.product.variants.find((variant) =>
+      LodashLang.isEqual(
+        variant.configurations.map((config) => ({
+          name: config.option,
+          value: config.value,
+        })),
+        selectedOptions
+      )
+    );
+  };
 
   const getImageTemplateForCarousel = (imgUrl) => {
     return (
@@ -100,11 +120,28 @@ const ProductInfo = (props) => {
 
         <div className="product-name text-aside-logo">{props.product.name}</div>
       </div>
-      <SelectButton
-        options={variants}
-        value={selectedVariantId}
-        onChange={(e) => setSelectVariantId(e.value)}
-      />
+      {props.product.options.map((option, index) => {
+        const currentOption = selectedOptions.find(
+          (selectedOption) => selectedOption.name === option.name
+        );
+        return (
+          <React.Fragment key={index}>
+            {option.name}
+            <SelectButton
+              key={index}
+              options={option.values.map((optionValue) => ({
+                label: optionValue,
+                value: optionValue,
+              }))}
+              value={currentOption.value}
+              onChange={(e) => {
+                currentOption.value = e.value;
+                setSelectedVariantId(findMatchingVariant().id);
+              }}
+            />
+          </React.Fragment>
+        );
+      })}
       <Carousel
         value={variantImagesUrls}
         itemTemplate={getImageTemplateForCarousel}

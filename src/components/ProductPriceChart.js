@@ -81,12 +81,13 @@ const ProductPriceChart = (props) => {
         value={selectedTimespanId}
         onChange={(e) => setSelectedTimespanId(e.value)}
       />
-      {props.product.options.map((option) => {
+      {props.product.options.map((option, index) => {
         const currentOption = selectedOptions.find(
           (selectedOption) => selectedOption.name === option.name
         );
         return (
           <SelectButton
+            key={index}
             options={option.values.map((optionValue) => ({
               label: optionValue,
               value: optionValue,
