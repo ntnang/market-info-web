@@ -7,22 +7,14 @@ import LodashLang from "lodash/lang";
 
 const ProductPriceChart = (props) => {
   const [productPriceHistoryChartModel, setProductPriceHistoryChartModel] =
-    useState({
-      name: "",
-      history: {
-        labels: [],
-        datasets: [],
-      },
-    });
+    useState();
 
   const [selectedVariantId, setSelectedVariantId] = useState(
-    props.product?.variants[0]?.id
+    props.product.variants[0].id
   );
 
-  const selectedOptions = props.product.options.map((option) => ({
-    name: option.name,
-    value: option.values[0],
-  }));
+  const [selectedOptions, setSelectedOptions] = useState();
+
   const chartDatasetBuilder = new ChartDatasetBuilder();
   const timeSpan = new TimeSpan();
 
@@ -41,9 +33,18 @@ const ProductPriceChart = (props) => {
   );
 
   useEffect(() => {
-    if (props.product?.variants) {
+    if (props.product?.variants.length == 0) {
       return;
     }
+    const selectedVariant = props.product.variants.find(
+      (variant) => variant.id === selectedVariantId
+    );
+    setSelectedOptions(
+      selectedVariant.configurations.map((config) => ({
+        name: config.option,
+        value: config.value,
+      }))
+    );
     const selectedTimespan = timeSpanMap.get(selectedTimespanId);
     const displayedPointOfTimeLabels = selectedTimespan
       .pointsOfTime()
@@ -59,9 +60,13 @@ const ProductPriceChart = (props) => {
         labels: displayedPointOfTimeLabels,
         datasets: chartDatasetBuilder.buildChartDataSets(
           props.product.variants.find(
-            (variant) => variant.id === selectedVariantId
+            (variant) =>
+              variant.id ===
+              (selectedVariantId
+                ? selectedVariantId
+                : props.product.variants[0].id)
           ),
-          props.sellers,
+          props.product.sellers,
           selectedTimespan
         ),
       },
@@ -70,7 +75,13 @@ const ProductPriceChart = (props) => {
 
   const findMatchingVariant = () => {
     return props.product.variants.find((variant) =>
-      LodashLang.isEqual(variant.configurations, selectedOptions)
+      LodashLang.isEqual(
+        variant.configurations.map((config) => ({
+          name: config.option,
+          value: config.value,
+        })),
+        selectedOptions
+      )
     );
   };
 
@@ -81,26 +92,29 @@ const ProductPriceChart = (props) => {
         value={selectedTimespanId}
         onChange={(e) => setSelectedTimespanId(e.value)}
       />
-      {props.product.options.map((option, index) => {
-        const currentOption = selectedOptions.find(
-          (selectedOption) => selectedOption.name === option.name
-        );
-        return (
-          <SelectButton
-            key={index}
-            options={option.values.map((optionValue) => ({
-              label: optionValue,
-              value: optionValue,
-            }))}
-            value={currentOption.value}
-            onChange={(e) => {
-              currentOption.value = e.value;
-              setSelectedVariantId(findMatchingVariant().id);
-            }}
-          />
-        );
-      })}
-      <Chart type="line" data={productPriceHistoryChartModel.history} />
+      {selectedOptions &&
+        props.product.options.map((option, index) => {
+          const currentOption = selectedOptions.find(
+            (selectedOption) => selectedOption.name === option.name
+          );
+          return (
+            <SelectButton
+              key={index}
+              options={option.values.map((optionValue) => ({
+                label: optionValue,
+                value: optionValue,
+              }))}
+              value={currentOption.value}
+              onChange={(e) => {
+                currentOption.value = e.value;
+                setSelectedVariantId(findMatchingVariant().id);
+              }}
+            />
+          );
+        })}
+      {productPriceHistoryChartModel && (
+        <Chart type="line" data={productPriceHistoryChartModel.history} />
+      )}
     </React.Fragment>
   );
 };
