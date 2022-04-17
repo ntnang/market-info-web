@@ -14,7 +14,7 @@ const Dashboard = (props) => {
         setLatestProduct(product);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, [props.lastChangeDateTime]);
 

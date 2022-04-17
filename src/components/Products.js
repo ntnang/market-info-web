@@ -16,8 +16,6 @@ const Products = (props) => {
   }, [props.lastChangeDateTime]);
 
   const itemTemplate = (product) => {
-    const firstSeller = Array.from(product.sellers, ([_, value]) => value)[0];
-    const latestPriceOfFirstSeller = firstSeller.priceHistories[0];
     return (
       <Link
         to={{
@@ -53,15 +51,11 @@ const Products = (props) => {
           </div>
           <div className="product-item-bottom">
             <div className="product-seller flex">
-              <img
-                src={firstSeller.logoUrl}
-                title={firstSeller.name}
-                alt={firstSeller.name}
-                width={32}
-                height={32}
-              />
               <span className="product-price">
-                {props.currencyFormatter.format(latestPriceOfFirstSeller.price)}
+                {props.currencyFormatter.format(product.minPrice)}{" "}
+                {product.maxPrice > product.minPrice
+                  ? "- " + props.currencyFormatter.format(product.maxPrice)
+                  : ""}
               </span>
             </div>
           </div>

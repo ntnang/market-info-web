@@ -98,18 +98,21 @@ const ProductPriceChart = (props) => {
             (selectedOption) => selectedOption.name === option.name
           );
           return (
-            <SelectButton
-              key={index}
-              options={option.values.map((optionValue) => ({
-                label: optionValue,
-                value: optionValue,
-              }))}
-              value={currentOption.value}
-              onChange={(e) => {
-                currentOption.value = e.value;
-                setSelectedVariantId(findMatchingVariant().id);
-              }}
-            />
+            <React.Fragment key={index}>
+              {option.name}
+              <SelectButton
+                key={index}
+                options={option.values.map((optionValue) => ({
+                  label: optionValue,
+                  value: optionValue,
+                }))}
+                value={currentOption.value}
+                onChange={(e) => {
+                  currentOption.value = e.value;
+                  setSelectedVariantId(findMatchingVariant().id);
+                }}
+              />
+            </React.Fragment>
           );
         })}
       {productPriceHistoryChartModel && (

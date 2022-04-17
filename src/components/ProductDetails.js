@@ -4,17 +4,7 @@ import ProductPriceChart from "../components/ProductPriceChart";
 import ProductService from "../service/ProductService";
 
 const ProductDetails = (props) => {
-  const [product, setProduct] = useState({
-    name: "",
-    thumbnailUrl: "",
-    origin: "",
-    minPrice: 0,
-    maxPrice: 0,
-    options: [],
-    variants: [],
-    sellers: [],
-    lastTrackedDate: null,
-  });
+  const [product, setProduct] = useState();
 
   const productService = new ProductService();
 
@@ -23,20 +13,23 @@ const ProductDetails = (props) => {
       .getProduct(props.matchParams.origin, props.matchParams.itemId)
       .then((product) => {
         setProduct(product);
-      });
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
     <React.Fragment>
       <div className="card">
-        <ProductInfo
-          product={product}
-          currencyFormatter={props.currencyFormatter}
-          dateTimeFormatter={props.dateTimeFormatter}
-        />
+        {product && (
+          <ProductInfo
+            product={product}
+            currencyFormatter={props.currencyFormatter}
+            dateTimeFormatter={props.dateTimeFormatter}
+          />
+        )}
       </div>
       <div className="card">
-        <ProductPriceChart product={product} />
+        {product && <ProductPriceChart product={product} />}
       </div>
     </React.Fragment>
   );
