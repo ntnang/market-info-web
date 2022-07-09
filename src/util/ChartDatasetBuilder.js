@@ -29,9 +29,7 @@ class ChartDatasetBuilder {
         timeSpan,
         this.chartDatasetHexColors[index % this.chartDatasetHexColors.length]
       );
-      if (dataset.data && dataset.data.some((data) => data !== null)) {
-        datasets.push(dataset);
-      }
+      datasets.push(dataset);
     });
     return datasets;
   }
