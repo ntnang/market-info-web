@@ -109,8 +109,10 @@ const ProductPriceChart = (props) => {
                 }))}
                 value={currentOption.value}
                 onChange={(e) => {
-                  currentOption.value = e.value;
-                  setSelectedVariantId(findMatchingVariant().id);
+                  if (e.value) {
+                    currentOption.value = e.value;
+                    setSelectedVariantId(findMatchingVariant().id);
+                  }
                 }}
                 className="option-value"
               />
