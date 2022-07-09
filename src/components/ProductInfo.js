@@ -126,7 +126,7 @@ const ProductInfo = (props) => {
         );
         return (
           <React.Fragment key={index}>
-            {option.name}
+            <div className="option-label">{option.name}</div>
             <SelectButton
               key={index}
               options={option.values.map((optionValue) => ({
@@ -138,6 +138,7 @@ const ProductInfo = (props) => {
                 currentOption.value = e.value;
                 setSelectedVariantId(findMatchingVariant().id);
               }}
+              className="option-value"
             />
           </React.Fragment>
         );

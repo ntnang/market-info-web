@@ -4,6 +4,7 @@ import { SelectButton } from "primereact/selectbutton";
 import ChartDatasetBuilder from "../util/ChartDatasetBuilder";
 import TimeSpan from "../constants/TimeSpan";
 import LodashLang from "lodash/lang";
+import "../scss/product-price-chart.scss";
 
 const ProductPriceChart = (props) => {
   const [productPriceHistoryChartModel, setProductPriceHistoryChartModel] =
@@ -99,7 +100,7 @@ const ProductPriceChart = (props) => {
           );
           return (
             <React.Fragment key={index}>
-              {option.name}
+              <div className="option-label">{option.name}</div>
               <SelectButton
                 key={index}
                 options={option.values.map((optionValue) => ({
@@ -111,6 +112,7 @@ const ProductPriceChart = (props) => {
                   currentOption.value = e.value;
                   setSelectedVariantId(findMatchingVariant().id);
                 }}
+                className="option-value"
               />
             </React.Fragment>
           );
