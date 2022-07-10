@@ -3,20 +3,14 @@ import { Link } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import classNames from "classnames";
+import "./scss/app-top-bar.scss";
 
 const AppTopbar = (props) => {
   return (
     <div className="layout-topbar">
       <Link to="/" className="layout-topbar-logo">
-        <img
-          src={
-            props.layoutColorMode === "light"
-              ? "assets/layout/images/logo-dark.svg"
-              : "assets/layout/images/logo-white.svg"
-          }
-          alt="logo"
-        />
-        <span>SAKAI</span>
+        <i className="pi pi-chart-line" />
+        <span>eComTrax</span>
       </Link>
 
       <button
