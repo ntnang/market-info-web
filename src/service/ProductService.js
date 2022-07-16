@@ -1,6 +1,8 @@
 class ProductService {
+  apiResourceHost = "https://ecomtrax-be.herokuapp.com";
+
   getAllProducts() {
-    return fetch("http://localhost:3001/api/products").then((res) => {
+    return fetch(`${apiResourceHost}/api/products`).then((res) => {
       if (res.ok) {
         return res.json();
       }
@@ -11,7 +13,7 @@ class ProductService {
   getProductCurrentInformationFromOrigin(origin, productId, shopId = "") {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
     return fetch(
-      `http://localhost:3001/api/${origin}/product/current-info/${productId}/${shopId}`
+      `${apiResourceHost}/api/${origin}/product/current-info/${productId}/${shopId}`
     ).then((res) => {
       if (res.ok) {
         return res.json();
@@ -24,18 +26,18 @@ class ProductService {
 
   getProduct(origin, productId) {
     // use the proxy https://cors-anywhere.herokuapp.com/ to bypass cors from client side
-    return fetch(
-      `http://localhost:3001/api/${origin}/product/${productId}`
-    ).then((res) => {
-      if (res.ok) {
-        return res.json();
+    return fetch(`${apiResourceHost}/api/${origin}/product/${productId}`).then(
+      (res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(`Cannot get product ${productId}`);
       }
-      throw new Error(`Cannot get product ${productId}`);
-    });
+    );
   }
 
   getLastTrackedProduct() {
-    return fetch("http://localhost:3001/api/product/latest").then((res) => {
+    return fetch("${apiResourceHost}/api/product/latest").then((res) => {
       if (res.ok) {
         return res.json();
       }
@@ -44,7 +46,7 @@ class ProductService {
   }
 
   saveProduct(productId, product) {
-    return fetch(`http://localhost:3001/api/product/${productId}`, {
+    return fetch(`${apiResourceHost}/api/product/${productId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
