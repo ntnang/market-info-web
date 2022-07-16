@@ -67,7 +67,7 @@ class ChartDatasetBuilder {
           );
         }
       );
-      if (historyEntriesInCurrentPeriod.length != 0) {
+      if (historyEntriesInCurrentPeriod.length !== 0) {
         historyEntryToBeFilled =
           historyEntriesInCurrentPeriod[
             historyEntriesInCurrentPeriod.length - 1
