@@ -1,5 +1,5 @@
 class ProductService {
-  apiResourceHost = "https://ecomtrax-be.herokuapp.com";
+  apiResourceHost = process.env.BACKEND_URL || "http://localhost:3001";
 
   getAllProducts() {
     return fetch(`${this.apiResourceHost}/api/products`).then((res) => {
