@@ -38,7 +38,7 @@ const ProductPriceChart = (props) => {
       return;
     }
     const selectedVariant = props.product.variants.find(
-      (variant) => variant.id === selectedVariantId
+      (variant) => variant.id == selectedVariantId
     );
     setSelectedOptions(
       selectedVariant.configurations.map((config) => ({
@@ -111,7 +111,10 @@ const ProductPriceChart = (props) => {
                 onChange={(e) => {
                   if (e.value) {
                     currentOption.value = e.value;
-                    setSelectedVariantId(findMatchingVariant().id);
+                    const matchingVariant = findMatchingVariant();
+                    if (matchingVariant) {
+                      setSelectedVariantId(matchingVariant.id);
+                    }
                   }
                 }}
                 className="option-value"
