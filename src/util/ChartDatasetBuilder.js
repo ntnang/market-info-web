@@ -39,7 +39,7 @@ class ChartDatasetBuilder {
     dataset.data = this.generateChartData(seller.priceHistories, timeSpan);
     dataset.label = sellersMetadata.find(
       (sellerMetadata) => sellerMetadata.id === seller.id
-    ).name;
+    )?.name;
     dataset.tension = 0.4;
     dataset.fill = false;
     dataset.borderColor = color;
